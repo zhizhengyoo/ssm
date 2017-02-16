@@ -1,0 +1,322 @@
+<#include "header_seller.html">
+	<!--//////////////////////////////////////////////////-->
+	<!--///////////////////Account Page///////////////////-->
+	<!--//////////////////////////////////////////////////-->
+	<div id="page-content" class="single-page">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-2">
+					<div class="panel panel-default">
+						<div class="panel-heading">我的应用</div>
+						<div class="panel-body">
+							<ul class="nav nav-pills nav-stacked" role="tablist">
+								<li role="presentation" class="active"><a href="#publish_book" aria-controls="profile" role="tab" data-toggle="tab">发布书籍信息</a></li>
+								<li role="presentation"><a href="#onSelling" aria-controls="profile" role="tab" data-toggle="tab">出售中的书籍</a></li>
+								<li role="presentation"><a href="#inventory" aria-controls="profile" role="tab" data-toggle="tab">仓库中的书籍</a></li>
+								<li role="presentation"><a href="#sold" aria-controls="profile" role="tab" data-toggle="tab">已卖出的书籍</a></li>
+								<li role="presentation"><a href="#shipments" aria-controls="profile" role="tab" data-toggle="tab">发货</a></li>
+								<li role="presentation"><a href="#comment_manage" aria-controls="profile" role="tab" data-toggle="tab">评价管理</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="tab-content col-md-10" style="border: none" >
+					<div id="publish_book" role="tabpanel" class="tab-pane active">
+						<div class="heading">
+							<div class="col-md-6">
+								<h2>发布书籍</h2>
+							</div>
+							<div class="col-md-6" style="margin-top: 20px;text-align: right;">
+								<button form="publishBookForm" type="submit" class="btn btn-1">发布</button>
+								<button form="publishBookForm" type="reset" class="btn btn-warning">重置</button>
+							</div>
+							<div style="clear: both"></div>
+						</div>
+						<form id="publishBookForm" class="form-horizontal" id="publish_book_form" method="post" action="">
+							<div class="form-group row">
+								<label class="control-label col-md-2">名称：</label>
+								<div class="col-md-4">
+									<input id="bookName" type="text" class="form-control"
+										   placeholder="名称"
+									   name="bookName" required>
+								</div>
+								<label class="control-label col-md-2">出版社：</label>
+								<div class=" col-md-4">
+									<input class="form-control" placeholder="出版社名称"
+										   name="publishCompany" required>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-2">作者：</label>
+								<div class=" col-md-4">
+									<input class="form-control" placeholder="作者" name="author" required>
+								</div>
+								<label class="control-label col-md-2">价格：</label>
+								<div class=" col-md-4">
+									<input type="number" class="form-control"
+										   placeholder="价格"
+										   name="price" required>								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-2">分类：</label>
+								<div class=" col-md-4">
+									<input class="form-control" name="category"
+										   placeholder="分类">
+								</div>
+								<label class="control-label col-md-2">新旧程度：</label>
+								<div class=" col-md-4">
+									<input class="form-control col-md-9" name="category"
+										   placeholder="新旧程度">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-2">描述：</label>
+								<div class=" col-md-10">
+									<textarea rows="6" class="form-control col-md-9"
+										   placeholder="书籍信息" name="bookInfo"  required></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-2">封面：</label>
+								<div class=" col-md-9">
+									<input class="col-md-9" type="image"
+									   name="cover" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-2">更多详图：</label>
+								<div class=" col-md-9">
+									<input class="col-md-9" name="moreImg" type="image">
+								</div>
+							</div>
+
+							<div style="clear:both;"></div>
+						</form>
+						<div style="clear:both;"></div>
+					</div>
+
+					<div id="onSelling" role="tabpanel" class="tab-pane">
+						<div class="heading"><h2>出售中的书籍</h2></div>
+						<form name="form2" id="onSelling_form" method="post" action="register.php">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="First Name :" name="firstname" id="firstname" required>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Last Name :" name="lastname" id="lastname" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Email Address :" name="email" id="email" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Mobile :" name="phone" id="phone" required>
+							</div>
+							<div class="form-group">
+								<input name="gender" id="gender" type="radio"> Male <input name="gender" id="gender" type="radio"> Female
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password :" name="password" id="password" required>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Retype Password :" name="repassword" id="repassword" required>
+							</div>
+							<div class="form-group">
+								<input name="agree" id="agree" type="checkbox" > I agree to your website.
+							</div>
+							<button type="submit" class="btn btn-1">Create</button>
+						</form>
+					</div>
+
+					<div id="inventory" role="tabpanel" class="tab-pane">
+						<div class="heading"><h2>仓库中的书籍</h2></div>
+						<form name="form2" id="inventory_form" method="post" action="register.php">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="First Name :" name="firstname" id="firstname" required>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Last Name :" name="lastname" id="lastname" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Email Address :" name="email" id="email" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Mobile :" name="phone" id="phone" required>
+							</div>
+							<div class="form-group">
+								<input name="gender" id="gender" type="radio"> Male <input name="gender" id="gender" type="radio"> Female
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password :" name="password" id="password" required>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Retype Password :" name="repassword" id="repassword" required>
+							</div>
+							<div class="form-group">
+								<input name="agree" id="agree" type="checkbox" > I agree to your website.
+							</div>
+							<button type="submit" class="btn btn-1">Create</button>
+						</form>
+					</div>
+
+					<div id="sold" role="tabpanel" class="tab-pane">
+
+						<div class="heading"><h2>已卖出的书籍</h2></div>
+						<form name="form2" id="sold_form" method="post" action="register.php">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="First Name :" name="firstname" id="firstname" required>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Last Name :" name="lastname" id="lastname" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Email Address :" name="email" id="email" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Mobile :" name="phone" id="phone" required>
+							</div>
+							<div class="form-group">
+								<input name="gender" id="gender" type="radio"> Male <input name="gender" id="gender" type="radio"> Female
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password :" name="password" id="password" required>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Retype Password :" name="repassword" id="repassword" required>
+							</div>
+							<div class="form-group">
+								<input name="agree" id="agree" type="checkbox" > I agree to your website.
+							</div>
+							<button type="submit" class="btn btn-1">Create</button>
+						</form>
+					</div>
+
+					<div id="shipments" role="tabpanel" class="tab-pane">
+						<div class="heading"><h2>发货</h2></div>
+						<form name="form2" id="shipments_form" method="post" action="register.php">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="First Name :" name="firstname" id="firstname" required>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Last Name :" name="lastname" id="lastname" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Email Address :" name="email" id="email" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Mobile :" name="phone" id="phone" required>
+							</div>
+							<div class="form-group">
+								<input name="gender" id="gender" type="radio"> Male <input name="gender" id="gender" type="radio"> Female
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password :" name="password" id="password" required>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Retype Password :" name="repassword" id="repassword" required>
+							</div>
+							<div class="form-group">
+								<input name="agree" id="agree" type="checkbox" > I agree to your website.
+							</div>
+							<button type="submit" class="btn btn-1">Create</button>
+						</form>
+					</div>
+
+					<div id="comment_manage" role="tabpanel" class="tab-pane">
+						<div class="heading"><h2>评价管理</h2></div>
+						<form name="form2" id="comment_manage_form" method="post" action="register.php">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="First Name :" name="firstname" id="firstname" required>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Last Name :" name="lastname" id="lastname" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Email Address :" name="email" id="email" required>
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Mobile :" name="phone" id="phone" required>
+							</div>
+							<div class="form-group">
+								<input name="gender" id="gender" type="radio"> Male <input name="gender" id="gender" type="radio"> Female
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password :" name="password" id="password" required>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Retype Password :" name="repassword" id="repassword" required>
+							</div>
+							<div class="form-group">
+								<input name="agree" id="agree" type="checkbox" > I agree to your website.
+							</div>
+							<button type="submit" class="btn btn-1">Create</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="wrap-footer">
+				<div class="row">
+					<div class="col-md-3 col-footer footer-1">
+						<img src="images/logofooter.png" />
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+					</div>
+					<div class="col-md-3 col-footer footer-2">
+						<div class="heading"><h4>Customer Service</h4></div>
+						<ul>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Delivery Information</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Terms & Conditions</a></li>
+							<li><a href="#">Contact Us</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-footer footer-3">
+						<div class="heading"><h4>My Account</h4></div>
+						<ul>
+							<li><a href="#">My Account</a></li>
+							<li><a href="#">Brands</a></li>
+							<li><a href="#">Gift Vouchers</a></li>
+							<li><a href="#">Specials</a></li>
+							<li><a href="#">Site Map</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-footer footer-4">
+						<div class="heading"><h4>Contact Us</h4></div>
+						<ul>
+							<li><span class="glyphicon glyphicon-home"></span>California, United States 3000009</li>
+							<li><span class="glyphicon glyphicon-earphone"></span>+91 8866888111</li>
+							<li><span class="glyphicon glyphicon-envelope"></span>infor@yoursite.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://www.cssmoban.com/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+					</div>
+					<div class="col-md-6">
+						<div class="pull-right">
+							<ul>
+								<li><img src="images/visa-curved-32px.png" /></li>
+								<li><img src="images/paypal-curved-32px.png" /></li>
+								<li><img src="images/discover-curved-32px.png" /></li>
+								<li><img src="images/maestro-curved-32px.png" /></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
