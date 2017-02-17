@@ -13,7 +13,7 @@
 
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from sys_use_hours
+        SELECT USE_HOURS_ID, USE_HOURS_STATUS from sys_use_hours
     </select>
 
 </mapper>
