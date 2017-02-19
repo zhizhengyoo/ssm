@@ -10,14 +10,39 @@
     <div style="clear: both"></div>
 </div>
 <form id="publishbookform" class="form-horizontal" method="post" action="">
+    <!--<div id="grid"></div>
+    <script>
+        $("#grid").kendoGrid({
+            columns: [ {
+                field: "name",
+                editor: function(container, options) {
+                    // create an input element
+                    var input = $("<input/>");
+                    // set its name to the field to which the column is bound ('name' in this case)
+                    input.attr("name", options.field);
+                    // append it to the container
+                    input.appendTo(container);
+                    // initialize a Kendo UI AutoComplete
+                    input.kendoAutoComplete({
+                        dataTextField: "name",
+                        dataSource: [
+                            { name: "Jane Doe" },
+                            { name: "John Doe" }
+                        ]
+                    });
+                }
+            } ],
+            editable: true,
+            dataSource: [ { name: "Jane Doe" }, { name: "John Doe" } ]
+        });
+    </script>-->
 
 
 
 
 
 
-
-    <input id="test">
+ <!--   <input id="test">
     <script>
         var data = [
             { text: "Black", value: "1" },
@@ -32,7 +57,7 @@
             index: 0 // 当前默认选中项，索引从0开始。
         });
 
-    </script>
+    </script>-->
 
     <div class="form-group row">
         <label class="control-label col-md-2 col-sm-2">名称：</label>
@@ -99,8 +124,8 @@
                             }
                         });
                     }else {
-                        $("#secondCategory option").remove();
-                        $("#secondCategory").append("<option value=''>二级分类</option>");
+                        $("#secondcategory option").remove();
+                        $("#secondcategory").append("<option value=''>二级分类</option>");
                     }
 
 
