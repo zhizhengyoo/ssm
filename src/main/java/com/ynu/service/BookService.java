@@ -8,4 +8,5 @@ import com.ynu.dto.Book;
 public interface BookService {
 
     public void insertBook(Book book);
+    public Book selectLasted();
 }

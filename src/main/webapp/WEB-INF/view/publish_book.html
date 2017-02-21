@@ -9,7 +9,8 @@
     </div>
     <div style="clear: both"></div>
 </div>
-<form id="publishbookform" class="form-horizontal" method="post" action="">
+<form id="publishBookForm" enctype="multipart/form-data" class="form-horizontal"
+      method="post" action="${base.contextPath}/addBook">
     <!--<div id="grid"></div>
     <script>
         $("#grid").kendoGrid({
@@ -36,12 +37,6 @@
             dataSource: [ { name: "Jane Doe" }, { name: "John Doe" } ]
         });
     </script>-->
-
-
-
-
-
-
  <!--   <input id="test">
     <script>
         var data = [
@@ -62,33 +57,53 @@
     <div class="form-group row">
         <label class="control-label col-md-2 col-sm-2">名称：</label>
         <div class="col-md-4 col-sm-4">
-            <input id="bookname" type="text" class="form-control"
+            <input id="bookName" type="text" class="form-control"
                    placeholder="名称"
-                   name="bookname" required>
+                   name="bookName">
         </div>
         <label class="control-label col-md-2 col-sm-2">出版社：</label>
         <div class=" col-md-4 col-sm-4">
             <input class="form-control" placeholder="出版社名称"
-                   name="publishcompany" required>
+                   name="publishingCompany">
         </div>
     </div>
     <div class="form-group row">
         <label class="control-label col-md-2 col-sm-2">作者：</label>
         <div class=" col-md-4 col-sm-4">
-            <input class="form-control" placeholder="作者" name="author" required>
+            <input class="form-control" placeholder="作者" name="author">
         </div>
-        <label class="control-label col-md-2 col-sm-2">价格：</label>
+        <label class="control-label col-md-2 col-sm-2">新旧程度：</label>
+        <div class=" col-md-4 col-sm-4">
+            <select class="form-control" name="useHoursId">
+                <#list useHoursList as useHours>
+                    <option value="${useHours.useHoursId}">${useHours.useHoursStatus}</option>
+                </#list>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-md-2 col-sm-2">单价：</label>
         <div class=" col-md-4 col-sm-4">
             <input type="number" class="form-control"
-                   placeholder="价格"
-                   name="price" required>								</div>
+                   placeholder="单价"
+                   name="price">
+        </div>
+        <label class="control-label col-md-2 col-sm-2">数量：</label>
+        <div class=" col-md-4 col-sm-4">
+            <input type="number" class="form-control"
+                   placeholder="数量"
+                   name="counts">
+        </div>
+
     </div>
 
     <div class="form-group">
         <label class="control-label col-md-2 col-sm-2">分类：</label>
         <div class=" col-md-4 col-sm-4">
             <div class="col-sm-6" style="margin-left: 0;padding-left: 0">
-                <select id="firstcategory" class="form-control" name="parentcid">
+                <select id="firstcategory" class="form-control" name="parentCId">
                     <option value="">一级分类</option>
                     <#list firstCategoryList as firstCategory>
                         <option value="${firstCategory.categoryId}">${firstCategory.categoryName}</option>
@@ -132,42 +147,196 @@
                 })
             </script>
             <div class="col-sm-6" style="margin-right: 0;padding-right: 0">
-                <select id="secondcategory" class="form-control" name="usehoursid">
+                <select id="secondcategory" class="form-control" name="categoryId">
                     <option value="">二级分类</option>
                 </select>
             </div>
         </div>
-        <label class="control-label col-md-2 col-sm-2">新旧程度：</label>
-        <div class=" col-md-4 col-sm-4">
-            <select class="form-control" name="usehoursid">
-                <#list useHoursList as useHours>
-                    <option value="${useHours.useHoursId}">${useHours.useHoursStatus}</option>
-                </#list>
-            </select>
-        </div>
+
     </div>
 
-    <div class="form-group">
+    <div class="form-group row">
         <label class="control-label col-md-2 col-sm-2">描述：</label>
-        <div class=" col-md-10 col-sm-10">
-									<textarea rows="6" class="form-control"
-                                              placeholder="书籍信息" name="bookinfo"  required></textarea>
+        <div class=" col-md-4 col-sm-4">
+            <textarea rows="6" class="form-control"
+                      placeholder="书籍信息" name="bookInfo"></textarea>
         </div>
-    </div>
 
-    <div class="form-group">
         <label class="control-label col-md-2 col-sm-2">封面：</label>
-        <div class=" col-md-9 col-sm-9">
-            <input type="file"
-                   name="cover" required>
+        <div class=" col-md-4 col-sm-4">
+   <!--         <input type="file"
+                   name="coverImg">-->
+
+            <div class="input-group row">
+                <div class="col-sm-12 big-photo">
+                    <div id="preview">
+                        <img id="imghead" border="0" src="../../ssm/static/images/z_add.png" width="90" height="90" onclick="$('#previewImg').click();">
+                    </div>
+                    <input type="file" name="coverImg" onchange="previewImage(this)" style="display: none;" id="previewImg">
+                    <!--<input id="uploaderInput" class="uploader__input" style="display: none;" type="file" accept="" multiple="">-->
+                </div>
+            </div>
+
         </div>
+
     </div>
+    <script>
+        //图片上传预览    IE是用了滤镜。
+        function previewImage(file)
+        {
+            var MAXWIDTH  = 90;
+            var MAXHEIGHT = 90;
+            var div = document.getElementById('preview');
+            if (file.files && file.files[0])
+            {
+                div.innerHTML ='<img id=imghead onclick=$("#previewImg").click()>';
+                var img = document.getElementById('imghead');
+                img.onload = function(){
+                    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                    img.width  =  rect.width;
+                    img.height =  rect.height;
+//                 img.style.marginLeft = rect.left+'px';
+                    img.style.marginTop = rect.top+'px';
+                }
+                var reader = new FileReader();
+                reader.onload = function(evt){img.src = evt.target.result;}
+                reader.readAsDataURL(file.files[0]);
+            }
+            else //兼容IE
+            {
+                var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+                file.select();
+                var src = document.selection.createRange().text;
+                div.innerHTML = '<img id=imghead>';
+                var img = document.getElementById('imghead');
+                img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+                div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+            }
+        }
+        function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+            var param = {top:0, left:0, width:width, height:height};
+            if( width>maxWidth || height>maxHeight ){
+                rateWidth = width / maxWidth;
+                rateHeight = height / maxHeight;
+
+                if( rateWidth > rateHeight ){
+                    param.width =  maxWidth;
+                    param.height = Math.round(height / rateWidth);
+                }else{
+                    param.width = Math.round(width / rateHeight);
+                    param.height = maxHeight;
+                }
+            }
+            param.left = Math.round((maxWidth - param.width) / 2);
+            param.top = Math.round((maxHeight - param.height) / 2);
+            return param;
+        }
+    </script>
+
     <div class="form-group">
         <label class="control-label col-md-2 col-sm-2">更多详图：</label>
-        <div class=" col-md-9 col-sm-9">
-            <input name="moreimg" type="file">
+        <div class=" col-md-10 col-sm-10">
+           <!-- <input name="moreImg" type="file">-->
+            <div class="container col-sm-12" style="padding: 0;">
+                <!--    照片添加    -->
+                <div class="z_photo">
+                    <div class="z_file">
+                        <input type="file" name="file" id="file" value="" accept="image/*" multiple onchange="imgChange('z_photo','z_file');" />
+
+                    </div>
+
+                </div>
+
+                <!--遮罩层-->
+                <div class="z_mask">
+                    <!--弹出框-->
+                    <div class="z_alert">
+                        <p>确定要删除这张图片吗？</p>
+                        <p>
+                            <span class="z_cancel">取消</span>
+                            <span class="z_sure">确定</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <script type="text/javascript">
+        //px转换为rem
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+                    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                    recalc = function() {
+                        var clientWidth = docEl.clientWidth;
+                        if (!clientWidth) return;
+                        if (clientWidth >= 640) {
+                            docEl.style.fontSize = '100px';
+                        } else {
+                            docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                        }
+                    };
+
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+
+        function imgChange(obj1, obj2) {
+            //获取点击的文本框
+            var file = document.getElementById("file");
+            //存放图片的父级元素
+            var imgContainer = document.getElementsByClassName(obj1)[0];
+            //获取的图片文件
+            var fileList = file.files;
+            //文本框的父级元素
+            var input = document.getElementsByClassName(obj2)[0];
+            var imgArr = [];
+            //遍历获取到得图片文件
+            if (fileList.length > 4){
+                return alert("图片不能超过四张");
+            }else if (imgContainer.childElementCount > 5 || imgContainer.childElementCount+fileList.length >5){
+                return alert("图片不能超过四张");
+            }else {
+                for (var i = 0; i < fileList.length; i++) {
+                    var imgUrl = window.URL.createObjectURL(file.files[i]);
+                    imgArr.push(imgUrl);
+                    var img = document.createElement("img");
+                    img.setAttribute("src", imgArr[i]);
+                    var imgAdd = document.createElement("div");
+                    imgAdd.setAttribute("class", "z_addImg");
+                    imgAdd.appendChild(img);
+                    imgContainer.appendChild(imgAdd);
+                };
+                imgRemove();
+            }
+
+        };
+
+        function imgRemove() {
+            var imgList = document.getElementsByClassName("z_addImg");
+            var mask = document.getElementsByClassName("z_mask")[0];
+            var cancel = document.getElementsByClassName("z_cancel")[0];
+            var sure = document.getElementsByClassName("z_sure")[0];
+            for (var j = 0; j < imgList.length; j++) {
+                imgList[j].index = j;
+                imgList[j].onclick = function() {
+                    var t = this;
+                    mask.style.display = "block";
+                    cancel.onclick = function() {
+                        mask.style.display = "none";
+                    };
+                    sure.onclick = function() {
+                        mask.style.display = "none";
+                        t.remove();
+                    };
+
+                }
+            };
+        };
+
+    </script>
 
     <div style="clear:both;"></div>
 </form>

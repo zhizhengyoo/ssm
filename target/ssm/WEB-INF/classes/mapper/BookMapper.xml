@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ynu.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="com.ynu.dto.Book" >
+        <id column="BOOK_ID" property="bookId" jdbcType="DECIMAL" />
+        <result column="BOOK_NAME" property="bookName" jdbcType="VARCHAR" />
+        <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+        <result column="BOOK_INFO" property="bookInfo" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="DECIMAL" />
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+        <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+        <result column="COVER" property="cover" jdbcType="VARCHAR" />
+        <result column="PUBLISHING_COMPANY" property="publishingCompany" jdbcType="VARCHAR" />
+        <result column="USE_HOURS_ID" property="useHoursId" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        BOOK_ID,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        USE_HOURS_ID
+    </sql>
+
+
+    <select id="selectLasted" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        from sys_book ORDER BY BOOK_ID DESC LIMIT 1
+    </select>
+
+    <insert id="insertBook">
+      INSERT INTO
+		sys_book(BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        USE_HOURS_ID)
+		values(#{bookName},#{author},#{bookInfo},#{price},#{userId},#{categoryId},#{cover},#{publishingCompany}
+		,#{useHoursId})
+    </insert>
+
+
+
+</mapper>

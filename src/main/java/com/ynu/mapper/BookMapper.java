@@ -8,4 +8,6 @@ import com.ynu.dto.Book;
 public interface BookMapper {
 
     public void insertBook(Book book);
+    public Book selectLasted();
+
 }

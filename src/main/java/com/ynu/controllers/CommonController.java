@@ -1,21 +1,21 @@
 package com.ynu.controllers;
 
-import com.ynu.dto.Category;
-import com.ynu.dto.UseHours;
-import com.ynu.dto.User;
-import com.ynu.service.CategoryService;
-import com.ynu.service.UseHoursService;
-import com.ynu.service.UserService;
+import com.ynu.dto.*;
+import com.ynu.mapper.BookDetailImgMapper;
+import com.ynu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -35,10 +35,17 @@ public class CommonController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private BookDetailImgMapper bookDetailImgMapper;
+
     @RequestMapping(value = "/account_seller")
     public String AccountSeller(Model model, HttpSession session){
-        List<UseHours> useHourses = useHoursService.selectAll();
-        model.addAttribute("useHours",useHourses);
         return  "account_seller";
     }
     @RequestMapping(value = "/account_seller/publish_book_info")
@@ -65,6 +72,98 @@ public class CommonController {
     }
 
 
+    @RequestMapping(value = "/addBook")
+    public String addBook(@RequestParam("coverImg")MultipartFile file,
+                          @RequestParam("file") MultipartFile[] detailImg,
+                          @RequestParam("bookName")String bookName,
+                          @RequestParam("publishingCompany")String publishingCompany,
+                          @RequestParam("author") String author,
+                          @RequestParam("useHoursId") String useHoursId,
+                          @RequestParam("price") BigDecimal price,
+                          @RequestParam("counts") Integer counts,
+                          @RequestParam("categoryId") String categoryId,
+                          @RequestParam("bookInfo") String bookInfo,
+                          HttpServletRequest request,
+                          HttpServletResponse response){
+        String coverName = file.getOriginalFilename();
+        String rootPath = request.getSession().getServletContext().getRealPath("/");
+        Object user  = request.getSession().getAttribute("login_success");
+        String userName = "";
+        int userId = ((User) user).getUserId();
+        Book book = new Book();
+        book.setUserId(userId);
+        book.setAuthor(author);
+        book.setBookInfo(bookInfo);
+        book.setBookName(bookName);
+        book.setUseHoursId(Integer.parseInt(useHoursId));
+        book.setPrice(price);
+        book.setPublishingCompany(publishingCompany);
+        book.setCategoryId(Integer.parseInt(categoryId));
+        try{
+            userName = ((User) user).getUserName();
+        /*    userName =  user.getClass().getDeclaredField("userName").get(user).toString();*/
+        }catch (Exception e){
+            return e.getMessage();
+        }
 
+        String path = rootPath + "static\\images\\"+userName+"\\";
+        File userPath = new File(path);
+        try {
+            if (!userPath.exists()) {
+                userPath.mkdir();
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        try {
+            String coverPath = path+"cover"+"\\";
+            try {
+                if (!(new File(coverPath).isDirectory())) {
+                    new File(coverPath).mkdir();
+                }
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+            coverPath = coverPath+coverName;
+            file.transferTo(new File(coverPath));
+            book.setCover(coverPath);
+            System.out.println("文件成功上传到指定目录下");
+        } catch (Exception e) {
+            System.out.println("读取文件内容出错");
+            e.printStackTrace();
+        }
+        bookService.insertBook(book);
+        Book bookLasted = bookService.selectLasted();
+        int bookId = bookLasted.getBookId();
+        Inventory inventory = new Inventory();
+        inventory.setBookId(bookId);
+        inventory.setTotalNum(counts);
+        inventory.setRemainNum(counts);
+        inventoryService.insertInventory(inventory);
+        BookDetailImg bookDetailImg = new BookDetailImg();
+        String detailPath = path+"detail\\";
+        try {
+            if (!(new File(detailPath).isDirectory())) {
+                new File(detailPath).mkdir();
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        for(MultipartFile detail:detailImg){
+            String name = detail.getOriginalFilename();
+            detailPath = detailPath+name;
+            bookDetailImg.setBookId(bookId);
+            bookDetailImg.setBookDetailImg(detailPath);
+
+            try{
+                detail.transferTo(new File(detailPath));
+                bookDetailImgMapper.insertBookDetailImg(bookDetailImg);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+        return "account_seller";
+    }
 
 }

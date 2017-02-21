@@ -12,12 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class BookServiceImpl {
+public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookMapper bookMapper;
 
     public void insertBook(Book book){
+
         bookMapper.insertBook(book);
+    }
+    public Book selectLasted(){
+        return bookMapper.selectLasted();
     }
 }

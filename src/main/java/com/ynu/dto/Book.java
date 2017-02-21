@@ -13,7 +13,7 @@ public class Book {
     private String bookInfo;
     private BigDecimal price;
     private String cover;
-    private String publishCompany;
+    private String publishingCompany;
 
     private Integer userId;
     private Integer categoryId;
@@ -67,12 +67,12 @@ public class Book {
         this.cover = cover;
     }
 
-    public String getPublishCompany() {
-        return publishCompany;
+    public String getPublishingCompany() {
+        return publishingCompany;
     }
 
-    public void setPublishCompany(String publishCompany) {
-        this.publishCompany = publishCompany;
+    public void setPublishingCompany(String publishingCompany) {
+        this.publishingCompany = publishingCompany;
     }
 
     public Integer getUserId() {
