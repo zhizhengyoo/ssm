@@ -13,7 +13,7 @@
     </sql>
 
 
-    <insert id="insertInventory">
+    <insert id="insertBookDetailImg">
         INSERT INTO
         sys_book_detail_img(BOOK_ID,BOOK_DETAIL_IMG)
         VALUES (#{bookId},#{bookDetailImg})

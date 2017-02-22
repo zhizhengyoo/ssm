@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by YANG on 2017/2/17.
  */
@@ -23,5 +25,9 @@ public class BookServiceImpl implements BookService {
     }
     public Book selectLasted(){
         return bookMapper.selectLasted();
+    }
+
+    public List<Book> selectByuserId(Integer userId){
+        return bookMapper.selectByuserId(userId);
     }
 }

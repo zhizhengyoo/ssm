@@ -10,8 +10,11 @@
         <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
         <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
         <result column="COVER" property="cover" jdbcType="VARCHAR" />
+        <result column="USE_HOURS_STATUS" property="useHoursStatus" jdbcType="VARCHAR" />
+        <result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
         <result column="PUBLISHING_COMPANY" property="publishingCompany" jdbcType="VARCHAR" />
         <result column="USE_HOURS_ID" property="useHoursId" jdbcType="DECIMAL" />
+        <result column="REMAIN_NUM" property="remainNum" jdbcType="DECIMAL" />
     </resultMap>
 
 
@@ -33,6 +36,17 @@
 		values(#{bookName},#{author},#{bookInfo},#{price},#{userId},#{categoryId},#{cover},#{publishingCompany}
 		,#{useHoursId})
     </insert>
+
+    <select id="selectByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT b.BOOK_ID,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        b.USE_HOURS_ID,c.CATEGORY_NAME,u.USE_HOURS_STATUS,i.REMAIN_NUM
+        from sys_book b
+        LEFT OUTER JOIN sys_category c ON (c.CATEGORY_ID = b.CATEGORY_ID)
+        LEFT OUTER JOIN sys_use_hours u ON (u.USE_HOURS_ID = b.USE_HOURS_ID)
+        LEFT OUTER JOIN sys_inventory i ON (i.BOOK_ID = b.BOOK_ID)
+        WHERE USER_ID = #{userId}
+        ORDER BY b.BOOK_ID DESC
+    </select>
 
 
 

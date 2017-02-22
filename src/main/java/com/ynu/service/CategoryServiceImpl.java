@@ -25,4 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> selectSecondLevel(Integer categoryId){
         return categoryMapper.selectSecondLevel(categoryId);
     }
+
+    public Category selectBycId(Integer id){
+        return categoryMapper.selectBycId(id);
+    }
 }

@@ -11,20 +11,31 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">我的应用</div>
 						<div class="panel-body">
-							<ul class="nav nav-pills nav-stacked" role="tablist">
-								<li role="presentation" class="active"><a href="#publish_book" aria-controls="profile" role="tab" data-toggle="tab">发布书籍信息</a></li>
-								<li role="presentation"><a href="account_seller/publish_book_info" target="publish_book">出售中的书籍</a></li>
-								<li role="presentation"><a href="#inventory" aria-controls="profile" role="tab" data-toggle="tab">仓库中的书籍</a></li>
-								<li role="presentation"><a href="#sold" aria-controls="profile" role="tab" data-toggle="tab">已卖出的书籍</a></li>
-								<li role="presentation"><a href="#shipments" aria-controls="profile" role="tab" data-toggle="tab">发货</a></li>
-								<li role="presentation"><a href="#comment_manage" aria-controls="profile" role="tab" data-toggle="tab">评价管理</a></li>
+							<ul id="bookUl" class="nav nav-pills nav-stacked" role="tablist">
+								<li onclick="changeActive(this)" role="presentation" class="active"><a href="account_seller/onsellingBook" target="publish_book">出售中的书籍</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="account_seller/publish_book_info" target="publish_book">发布书籍信息</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="#inventory">仓库中的书籍</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="#sold">已卖出的书籍</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="#shipments">发货</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="#comment_manage">评价管理</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
+				<script>
+					function changeActive(e) {
+						if(e.className != "active"){
+							$("#bookUl >li.active").removeClass("active");
+							e.className ="active";
+						}
+					}
+				</script>
 				<div class="tab-content col-md-10" style="border: none" >
 					<div id="publish_book" role="tabpanel" class="tab-pane active">
-						<iframe style="height: 600px" scrolling="no" class="col-md-11" name="publish_book"  frameborder="0"></iframe>
+						<iframe style="height: 600px;width: 100%"
+								scrolling="no" class="col-md-11" name="publish_book"
+								frameborder="0"
+								src="account_seller/onsellingBook"></iframe>
 						<div style="clear: both"></div>
 					</div>
 

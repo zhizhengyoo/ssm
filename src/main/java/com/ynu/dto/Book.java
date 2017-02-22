@@ -19,6 +19,43 @@ public class Book {
     private Integer categoryId;
     private Integer useHoursId;
 
+    private String categoryName;
+    private String categoryParentName;
+    private String useHoursStatus;
+    private Integer remainNum;
+
+    public Integer getRemainNum() {
+        return remainNum;
+    }
+
+    public void setRemainNum(Integer remainNum) {
+        this.remainNum = remainNum;
+    }
+
+    public String getCategoryParentName() {
+        return categoryParentName;
+    }
+
+    public void setCategoryParentName(String categoryParentName) {
+        this.categoryParentName = categoryParentName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getUseHoursStatus() {
+        return useHoursStatus;
+    }
+
+    public void setUseHoursStatus(String useHoursStatus) {
+        this.useHoursStatus = useHoursStatus;
+    }
+
     public Integer getBookId() {
         return bookId;
     }

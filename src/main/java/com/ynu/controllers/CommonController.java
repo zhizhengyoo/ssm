@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -126,7 +128,9 @@ public class CommonController {
             }
             coverPath = coverPath+coverName;
             file.transferTo(new File(coverPath));
-            book.setCover(coverPath);
+
+            String sqlPath = coverPath.substring(rootPath.length());
+            book.setCover(sqlPath);
             System.out.println("文件成功上传到指定目录下");
         } catch (Exception e) {
             System.out.println("读取文件内容出错");
@@ -163,7 +167,41 @@ public class CommonController {
             }
 
         }
-        return "account_seller";
+        return "redirect:account_seller/onsellingBook";
+    }
+
+    @RequestMapping(value = "/account_seller/onsellingBook")
+    public String onsellingBook(){
+        return "onselling_book";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/account_seller/onsellingBook/query")
+    public List<Book> queryOnsellingBook(HttpServletRequest request,
+                                         HttpServletResponse response){
+        Object user  = request.getSession().getAttribute("login_success");
+        String userName = "";
+        int userId = ((User) user).getUserId();
+        List<Book> books = bookService.selectByuserId(userId);
+        List<Book> books1 = new ArrayList<Book>();
+        for (Book book :books){
+            Category category = categoryService.selectBycId(book.getCategoryId());
+            Category category1 = categoryService.selectBycId(category.getParentCId());
+            book.setCategoryParentName(category1.getCategoryName());
+            books1.add(book);
+        }
+        return books1;
+
+    }
+
+
+    @RequestMapping(value = "/account_seller/onsellingBook/update",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Book> updateBook(@RequestBody Book book,HttpServletRequest request){
+
+        List<Book> books = new ArrayList<Book>();
+
+        return books;
     }
 
 }

@@ -1,0 +1,204 @@
+<#include "header_seller.html">
+    <div class="heading">
+        <div class="col-md-6 col-sm-6">
+            <h2>出售中的书籍</h2>
+        </div>
+        <div class="col-md-6 col-sm-6" style="margin-top: 20px;text-align: right;">
+            <button form="publishBookForm" type="submit" class="btn btn-1">发布</button>
+            <button form="publishBookForm" type="reset" class="btn btn-warning">重置</button>
+        </div>
+
+        <div style="clear: both"></div>
+    </div>
+    <div id="grid"></div>
+
+    <script>
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "onsellingBook/query",
+                    dataType : "json"
+                },
+                update: {
+                    url: "onsellingBook/update",
+                    type:"POST",
+                   contentType:'application/json',
+                   /*dataType:"json",*/
+                   data:function (e) {
+                       return e;
+                   }
+
+                },
+                parameterMap : function(options, type) {
+                    if (type !== "read" && options) {
+                        /*const optionTwo = kendo.stringify(options);
+                        const newOption = optionTwo;*/
+                        return kendo.stringify(options);
+                    }
+                }
+
+            },
+            schema: {
+                model: {
+                    id: "bookId"
+                }
+            },
+            pageSize: 5
+        });
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable : {
+                pageSizes : [ 3,5, 10, 20, 50 ],
+                refresh : true,
+                buttonCount : 5
+            },
+            height:500,
+            editable:"inline",
+            columns:[
+                {
+                    field:"bookName",
+                    title:"书名",
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    menu: false
+                },{
+                    field:"author",
+                    title:"作者",
+                    hidden:true,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                },{
+                    field:"bookInfo",
+                    title:"简介",
+                    hidden:true,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                },{
+                    field:"price",
+                    title:"价格",
+                    template:function (e) {
+                        return e["price"]+"  元" || ""
+                    },
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    }
+                },{
+                    field:"remainNum",
+                    title:"剩余",
+                    template:function (e) {
+                        return e["remainNum"]+"  本" || ""
+                    },
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    }
+                },{
+                    field:"cover",
+                    title:"封面",
+                    hidden:true,
+                    template:function (e) {
+                        return '<img src="'+e.cover+'">'
+                    },
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                },{
+                    field:"publishingCompany",
+                    title:"出版社",
+                    hidden:true,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                },{
+                    field:"categoryId",
+                    title:"分类",
+                    template:function (e) {
+                        return e['categoryParentName']+"-"+e['categoryName']
+                                || ""
+                    },
+                    hidden:true,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                },{
+                    field:"useHoursId",
+                    title:"新旧程度",
+                    template:function (e) {
+                        return e["useHoursStatus"] || ""
+                    },
+                    hidden:true,
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                },{command:[{
+                    name:"edit",
+                    click:function (e) {
+
+                    }
+                }],
+                    width:200
+                }
+            ],
+            columnMenu: true
+        });
+
+    </script>
+
+
+    <form id="publishBookForm" class="form-horizontal"
+          method="post" action="onsellingBook">
+
+
+
+
+        <div style="clear:both;"></div>
+    </form>
+    <div style="clear:both;"></div>
+    </body>
