@@ -3,6 +3,8 @@ package com.ynu.controllers;
 import com.ynu.dto.*;
 import com.ynu.mapper.BookDetailImgMapper;
 import com.ynu.service.*;
+import org.apache.commons.pool.BasePoolableObjectFactory;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -39,9 +41,6 @@ public class CommonController {
 
     @Autowired
     private BookService bookService;
-
-    @Autowired
-    private InventoryService inventoryService;
 
     @Autowired
     private BookDetailImgMapper bookDetailImgMapper;
@@ -101,9 +100,10 @@ public class CommonController {
         book.setPrice(price);
         book.setPublishingCompany(publishingCompany);
         book.setCategoryId(Integer.parseInt(categoryId));
+        book.setTotalNum(counts);
+        book.setRemainNum(counts);
         try{
             userName = ((User) user).getUserName();
-        /*    userName =  user.getClass().getDeclaredField("userName").get(user).toString();*/
         }catch (Exception e){
             return e.getMessage();
         }
@@ -139,11 +139,6 @@ public class CommonController {
         bookService.insertBook(book);
         Book bookLasted = bookService.selectLasted();
         int bookId = bookLasted.getBookId();
-        Inventory inventory = new Inventory();
-        inventory.setBookId(bookId);
-        inventory.setTotalNum(counts);
-        inventory.setRemainNum(counts);
-        inventoryService.insertInventory(inventory);
         BookDetailImg bookDetailImg = new BookDetailImg();
         String detailPath = path+"detail\\";
         try {
@@ -175,12 +170,12 @@ public class CommonController {
         return "onselling_book";
     }
 
-    @ResponseBody
+
     @RequestMapping(value = "/account_seller/onsellingBook/query")
+    @ResponseBody
     public List<Book> queryOnsellingBook(HttpServletRequest request,
                                          HttpServletResponse response){
         Object user  = request.getSession().getAttribute("login_success");
-        String userName = "";
         int userId = ((User) user).getUserId();
         List<Book> books = bookService.selectByuserId(userId);
         List<Book> books1 = new ArrayList<Book>();
@@ -197,11 +192,29 @@ public class CommonController {
 
     @RequestMapping(value = "/account_seller/onsellingBook/update",method = RequestMethod.POST)
     @ResponseBody
-    public List<Book> updateBook(@RequestBody Book book,HttpServletRequest request){
+    public Book updateBook(@RequestBody Book book,HttpServletRequest request){
 
-        List<Book> books = new ArrayList<Book>();
+        Book book1 = bookService.selectByBookId(book.getBookId());
+        if (book1.getRemainNum()!=book.getRemainNum()){
+            book.setTotalNum(book.getRemainNum()+book.getSoldNum());
+        }
 
-        return books;
+        try {
+            bookService.updateBook(book);
+            return book;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            e.getMessage();
+        }
+        return null;
+    }
+    @RequestMapping(value = "/account_seller/onsellingBook/destroy",method = RequestMethod.POST)
+    @ResponseBody
+    public Book destroyBook(@RequestBody Book book,HttpServletRequest request){
+
+
+
+        return null;
     }
 
 }

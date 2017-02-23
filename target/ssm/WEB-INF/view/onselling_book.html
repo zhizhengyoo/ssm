@@ -27,7 +27,6 @@
                    data:function (e) {
                        return e;
                    }
-
                 },
                 parameterMap : function(options, type) {
                     if (type !== "read" && options) {
@@ -40,7 +39,10 @@
             },
             schema: {
                 model: {
-                    id: "bookId"
+                    id: "bookId",
+                    fields:{
+                       'bookName':{}
+                    }
                 }
             },
             pageSize: 5
@@ -124,7 +126,7 @@
                     title:"封面",
                     hidden:true,
                     template:function (e) {
-                        return '<img src="'+e.cover+'">'
+                        return '<img src="${base.contextPath}/'+e.cover+'">'
                     },
                     headerAttributes: {
                         "class": "table-header-cell",
@@ -177,12 +179,7 @@
                         "class": "table-cell",
                         style: "text-align: center; font-size: 14px"
                     },
-                },{command:[{
-                    name:"edit",
-                    click:function (e) {
-
-                    }
-                }],
+                },{command:["edit","destroy"],
                     width:200
                 }
             ],

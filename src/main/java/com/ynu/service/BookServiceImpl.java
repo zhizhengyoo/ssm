@@ -30,4 +30,13 @@ public class BookServiceImpl implements BookService {
     public List<Book> selectByuserId(Integer userId){
         return bookMapper.selectByuserId(userId);
     }
+    public Book selectByBookId(Integer bookId){
+        return bookMapper.selectByBookId(bookId);
+    }
+    public void updateBook(Book book){
+        bookMapper.updateBook(book);
+    }
+    public Book destroyBook(Book book){
+        return bookMapper.destroyBook(book);
+    }
 }

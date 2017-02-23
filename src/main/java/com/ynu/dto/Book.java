@@ -14,6 +14,9 @@ public class Book {
     private BigDecimal price;
     private String cover;
     private String publishingCompany;
+    private Integer totalNum;
+    private Integer soldNum;
+    private Integer remainNum;
 
     private Integer userId;
     private Integer categoryId;
@@ -22,7 +25,22 @@ public class Book {
     private String categoryName;
     private String categoryParentName;
     private String useHoursStatus;
-    private Integer remainNum;
+
+    public Integer getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(Integer totalNum) {
+        this.totalNum = totalNum;
+    }
+
+    public Integer getSoldNum() {
+        return soldNum;
+    }
+
+    public void setSoldNum(Integer soldNum) {
+        this.soldNum = soldNum;
+    }
 
     public Integer getRemainNum() {
         return remainNum;
