@@ -28,6 +28,15 @@
                        return e;
                    }
                 },
+                destroy: {
+                    url: "onsellingBook/destroy",
+                    type:"POST",
+                    contentType:'application/json',
+                    /*dataType:"json",*/
+                    data:function (e) {
+                        return e;
+                    }
+                },
                 parameterMap : function(options, type) {
                     if (type !== "read" && options) {
                         /*const optionTwo = kendo.stringify(options);

@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
     public void updateBook(Book book){
         bookMapper.updateBook(book);
     }
-    public Book destroyBook(Book book){
-        return bookMapper.destroyBook(book);
+    public void destroyBook(Integer bookId){
+        bookMapper.destroyBook(bookId);
     }
 }

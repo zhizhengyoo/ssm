@@ -211,10 +211,10 @@ public class CommonController {
     @RequestMapping(value = "/account_seller/onsellingBook/destroy",method = RequestMethod.POST)
     @ResponseBody
     public Book destroyBook(@RequestBody Book book,HttpServletRequest request){
+        Book book1 = book;
+        bookService.destroyBook(book.getBookId());
 
-
-
-        return null;
+        return book;
     }
 
 }

@@ -14,5 +14,5 @@ public interface BookService {
     public List<Book> selectByuserId(Integer userId);
     public Book selectByBookId(Integer bookId);
     public void updateBook(Book book);
-    public Book destroyBook(Book book);
+    public void destroyBook(Integer bookId);
 }
