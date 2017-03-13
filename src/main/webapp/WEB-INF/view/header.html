@@ -8,30 +8,33 @@
     <meta name="author" content="">
     
     <title>Mobile Shop</title>
-    
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="${base.contextPath}/static/css/bootstrap.min.css"  type="text/css">
-    
+    <!--[if IE 8]>
+    <script src="${base.contextPath}/lib/polyfill/respond.min.js"></script>
+    <script src="${base.contextPath}/lib/polyfill/es5-shim.min.js"></script>
+    <![endif]-->
+    <script src="${base.contextPath}/static/js/jquery-2.1.1.js"></script>
+    <!--
+        <script src="${base.contextPath}/lib/kendoui/js/jquery-1.12.3.js"></script>
+    -->
+    <!--
+        <script src="${base.contextPath}/lib/kendoui/js/jquery.min.js"></script>
+    -->
+    <script src="${base.contextPath}/lib/kendoui/js/kendo.all.js"></script>
+    <script src="${base.contextPath}/static/js/bootstrap.min.js"></script>
+    <link href="${base.contextPath}/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="${base.contextPath}/lib/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="${base.contextPath}/lib/kendoui/styles/kendo.common-bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="${base.contextPath}/lib/kendoui/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!--
+        <link href="${base.contextPath}/lib/kendoui/styles/kendo.hap.css" rel="stylesheet" type="text/css"/>
+    -->
+    <script src="${base.contextPath}/lib/kendoui/js/cultures/kendo.culture.${base.locale.toString()?replace('_','-')}.js"></script>
+    <script src="${base.contextPath}/lib/kendoui/js/messages/kendo.messages.${base.locale.toString()?replace('_','-')}.js"></script>
+    <!--<script src="${base.contextPath}/lib/kendoui/js/kendo.hap.js"></script>-->
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${base.contextPath}/static/css/style.css">
-    
-    
-    <!-- Custom Fonts -->
-    <link rel="stylesheet" href="${base.contextPath}/static/font-awesome/font-awesome.min.css"  type="text/css">
 
-    <!-- jQuery and Modernizr-->
-    <script src="${base.contextPath}/static/js/jquery-2.1.1.js"></script>
-    
-    <!-- Core JavaScript Files -->       
-    <script src="${base.contextPath}/static/js/bootstrap.min.js"></script>
-    <script src="${base.contextPath}/static/js/kendo.all.min.js"></script>
-    
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="${base.contextPath}/js/html5shiv.js"></script>
-        <script src="${base.contextPath}/js/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>

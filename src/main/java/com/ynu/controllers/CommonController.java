@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,19 @@ public class CommonController {
 
     @Autowired
     private BookDetailImgMapper bookDetailImgMapper;
+
+    @RequestMapping("/home")
+    public ModelAndView home() {
+        ModelAndView mv = new ModelAndView("home");
+        /*mv.addObject("home","qixiangyu");*/
+        List<Book> books = bookService.selectAll();
+        mv.addObject("books",books);
+        return mv;
+    }
+
+
+
+
 
     @RequestMapping(value = "/account_seller")
     public String AccountSeller(Model model, HttpSession session){
@@ -213,7 +227,6 @@ public class CommonController {
     public Book destroyBook(@RequestBody Book book,HttpServletRequest request){
         Book book1 = book;
         bookService.destroyBook(book.getBookId());
-
         return book;
     }
 

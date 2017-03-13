@@ -39,7 +39,7 @@ public class UserController {
         user.setUserName(userName);
         userService.insertUser(user);
         model.addAttribute("message", "注册成功");
-        return "redirect:test";
+        return "redirect:home";
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -61,6 +61,6 @@ public class UserController {
         }else{
             model.addAttribute("login_error","账号信息错误，请重新登陆");
         }
-        return "redirect:test";
+        return "redirect:home";
     }
 }

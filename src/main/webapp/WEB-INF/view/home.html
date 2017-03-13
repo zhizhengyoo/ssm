@@ -70,22 +70,31 @@
                 <div class="col-lg-12">
                     <div class="heading"><h2>SPECIAL PRODUCTS</h2></div>
                     <div class="products">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
+                        <#list books as book>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="product">
+                                    <div class="image"><a href="product.html"><img src="${base.contextPath}/${book.cover}" /></a></div>
+                                    <div class="buttons">
+                                        <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                        <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
+                                        <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
+                                    </div>
+                                    <div class="caption">
+                                        <div class="name"><h3><a href="product.html">${book.bookName}</a></h3></div>
+                                        <div class="price">${book.price}<span>$98</span></div>
+                                        <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </#list>
+                        <script>
+                            $(document).ready(function() {
+                                $(".btn.cart").kendoTooltip({
+                                    content: "加入购物车"
+                                });
+                            });
+                        </script>
+                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="product">
                                 <div class="image"><a href="product.html"><img src="static/images/book2.jpg" /></a></div>
                                 <div class="buttons">
@@ -129,7 +138,7 @@
                                     <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

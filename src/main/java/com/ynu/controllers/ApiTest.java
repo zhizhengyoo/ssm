@@ -14,13 +14,7 @@ import com.ynu.service.UserServiceImpl;
 public class ApiTest {
 
 
-    @RequestMapping("/test")
-    public ModelAndView view() {
-        ModelAndView mv = new ModelAndView("test");
-        mv.addObject("test","qixiangyu");
-        //mv.addObject("user",userService.selectByUserName("Bob"));
-        return mv;
-    }
+
 
 
 

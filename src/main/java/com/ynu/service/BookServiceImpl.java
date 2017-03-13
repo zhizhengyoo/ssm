@@ -39,4 +39,7 @@ public class BookServiceImpl implements BookService {
     public void destroyBook(Integer bookId){
         bookMapper.destroyBook(bookId);
     }
+    public List<Book> selectAll(){
+        return bookMapper.selectAll();
+    }
 }

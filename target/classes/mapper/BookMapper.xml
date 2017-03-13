@@ -53,6 +53,11 @@
         ORDER BY b.BOOK_ID DESC
     </select>
 
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_book
+    </select>
+
     <select id="selectByBookId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT <include refid="Base_Column_List" />
         FROM sys_book WHERE BOOK_ID = #{bookId}

@@ -4,7 +4,7 @@
 <body>
 <%
     // 重定向到新地址
-    String site = new String("test");
+    String site = new String("home");
     response.setStatus(response.SC_MOVED_TEMPORARILY);
     response.setHeader("Location", site);
 %>

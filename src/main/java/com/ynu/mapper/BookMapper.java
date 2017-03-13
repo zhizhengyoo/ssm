@@ -15,4 +15,5 @@ public interface BookMapper {
     public Book selectByBookId(Integer bookId);
     public void updateBook(Book book);
     public void destroyBook(Integer bookId);
+    public List<Book> selectAll();
 }
