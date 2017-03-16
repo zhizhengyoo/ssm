@@ -67,156 +67,83 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="heading"><h2>SPECIAL PRODUCTS</h2></div>
-                    <div class="products">
-                        <#list books as book>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="product">
-                                    <div class="image"><a href="product.html"><img src="${base.contextPath}/${book.cover}" /></a></div>
-                                    <div class="buttons">
-                                        <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                        <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                        <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading"><h2>新书上架</h2></div>
+                            <div class="products">
+                                <#list books as book>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="product">
+                                            <div class="image"><a href="${base.contextPath}/bookDetail/${book.bookId}"><img src="${base.contextPath}/${book.cover}" /></a></div>
+                                            <div class="caption">
+                                                <div class="name">
+                                                    <a href="${base.contextPath}/bookDetail/${book.bookId}">
+                                                        <span>${book.bookName}</span>
+                                                        <span>${book.author}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="price">${book.price}<span>$98</span></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="caption">
-                                        <div class="name"><h3><a href="product.html">${book.bookName}</a></h3></div>
-                                        <div class="price">${book.price}<span>$98</span></div>
-                                        <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-                                    </div>
-                                </div>
+                                </#list>
                             </div>
-                        </#list>
-                        <script>
-                            $(document).ready(function() {
-                                $(".btn.cart").kendoTooltip({
-                                    content: "加入购物车"
-                                });
-                            });
-                        </script>
-                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book2.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book3.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book4.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></div>
-                                </div>
-                            </div>
-                        </div>-->
+                </div>
+                <div class="col-md-3">
+                    <div class="col-lg-12">
+                        <div class="heading"><h2>热销排行</h2></div>
+                        <ul class="list-group">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Morbi leo risus</li>
+                            <li class="list-group-item">Porta ac consectetur ac</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
                     </div>
+
                 </div>
             </div>
             <div class="row">
-                <div class="banner">
-                    <div class="col-sm-6">
-                        <img src="images/sub-banner4.jpg" />
-                    </div>
-                    <div class="col-sm-6">
-                        <img src="images/sub-banner5.png" />
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading"><h2>特价图书</h2></div>
+                            <div class="products">
+                                <#list books as book>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="product">
+                                            <div class="image"><a href="product.html"><img src="${base.contextPath}/${book.cover}" /></a></div>
+                                            <div class="caption">
+                                                <div class="name">
+                                                    <a href="product.html">
+                                                        <span>${book.bookName}</span>
+                                                        <span>${book.author}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="price">${book.price}<span>$98</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </#list>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="heading"><h2>FEATURED PRODUCTS</h2></div>
-                    <div class="products">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book1.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book2.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book3.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product">
-                                <div class="image"><a href="product.html"><img src="static/images/book4.jpg" /></a></div>
-                                <div class="buttons">
-                                    <a class="btn cart" href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    <a class="btn wishlist" href="#"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a class="btn compare" href="#"><span class="glyphicon glyphicon-transfer"></span></a>
-                                </div>
-                                <div class="caption">
-                                    <div class="name"><h3><a href="product.html">Aliquam erat volutpat</a></h3></div>
-                                    <div class="price">$122<span>$98</span></div>
-                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span></div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-3">
+                    <div class="col-lg-12">
+                        <div class="heading"><h2>大家喜欢</h2></div>
+                        <ul class="list-group">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Morbi leo risus</li>
+                            <li class="list-group-item">Porta ac consectetur ac</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -257,25 +184,6 @@
                             <li><span class="glyphicon glyphicon-earphone"></span>+91 8866888111</li>
                             <li><span class="glyphicon glyphicon-envelope"></span>infor@yoursite.com</li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                         &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://www.cssmoban.com/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="pull-right">
-                            <ul>
-                                <li><img src="images/visa-curved-32px.png" /></li>
-                                <li><img src="images/paypal-curved-32px.png" /></li>
-                                <li><img src="images/discover-curved-32px.png" /></li>
-                                <li><img src="images/maestro-curved-32px.png" /></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>

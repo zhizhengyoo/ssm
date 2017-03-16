@@ -59,8 +59,12 @@
     </select>
 
     <select id="selectByBookId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT <include refid="Base_Column_List" />
-        FROM sys_book WHERE BOOK_ID = #{bookId}
+        SELECT b.BOOK_ID,TOTAL_NUM,SOLD_NUM,REMAIN_NUM,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        b.USE_HOURS_ID,c.CATEGORY_NAME,u.USE_HOURS_STATUS
+        from sys_book b
+        LEFT OUTER JOIN sys_category c ON (c.CATEGORY_ID = b.CATEGORY_ID)
+        LEFT OUTER JOIN sys_use_hours u ON (u.USE_HOURS_ID = b.USE_HOURS_ID)
+        WHERE BOOK_ID = #{bookId}
     </select>
 
 
