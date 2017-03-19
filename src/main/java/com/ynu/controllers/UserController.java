@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/logout",method =RequestMethod.GET)
-    public String Logout(HttpSession session,HttpServletRequest request){
+    public String Logout(HttpServletRequest request){
         request.getSession().invalidate();
         return "redirect:home";
     }

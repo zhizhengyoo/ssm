@@ -3,11 +3,6 @@
         <div class="col-md-6 col-sm-6">
             <h2>出售中的书籍</h2>
         </div>
-        <div class="col-md-6 col-sm-6" style="margin-top: 20px;text-align: right;">
-            <button form="publishBookForm" type="submit" class="btn btn-1">发布</button>
-            <button form="publishBookForm" type="reset" class="btn btn-warning">重置</button>
-        </div>
-
         <div style="clear: both"></div>
     </div>
     <div id="grid"></div>
@@ -50,7 +45,9 @@
                 model: {
                     id: "bookId",
                     fields:{
-                       'bookName':{}
+                       'bookName':{},
+                        'price':{type:'number'},
+                        'remainNum':{type:'number'}
                     }
                 }
             },

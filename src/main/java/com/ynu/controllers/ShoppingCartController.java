@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.Filter;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -34,6 +37,7 @@ public class ShoppingCartController {
     public String insertShoppingCart(@PathVariable Integer id,
             @RequestParam(value = "bookId",required = false) Integer bookId,
                                      Model model,
+                                     HttpSession session,
                                      @RequestParam(value = "counts",required = false) Integer counts,
             HttpServletRequest request, HttpServletResponse response) {
         String path = (String) request.getSession().getAttribute("returnUrl");
@@ -41,8 +45,17 @@ public class ShoppingCartController {
             User user = (User) request.getSession().getAttribute("login_success");
             Integer userId = user.getUserId();
             shoppingCartService.insert(bookId,userId,counts);
-            model.addAttribute("success","添加购物车成功");
+            session.setAttribute("addShoppingCartSuccess",true);
+            System.out.println("success");
         }
         return "redirect:/bookDetail/"+id;
+    }
+
+    @RequestMapping("shoppingCart")
+    public String shoppingCartPage(HttpServletRequest request,Model model){
+        User user = (User)request.getSession().getAttribute("login_success");
+        List<ShoppingCart> shoppingCarts = shoppingCartService.selectByUserId(user.getUserId());
+        model.addAttribute("shoppingCarts",shoppingCarts);
+        return "shopping_cart";
     }
 }

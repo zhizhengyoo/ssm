@@ -57,11 +57,28 @@
 										</div>
 
 									</div>
+
 								</form>
 							</div>
 						</div>
+
 						<div class="clear"></div>
-					</div>	
+					</div>
+
+					<#if addShoppingCartSuccess??>
+						<div id="tooltip" class="alert alert-info alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>成功!</strong> ${addShoppingCartSuccess}.
+						</div>
+						<script>
+							$(document).ready(function(){
+								setTimeout(function () {
+										$("#tooltip").fadeOut();
+								},1000);
+							});
+						</script>
+					</#if>
+
 					<div class="product-desc">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#description">Description</a></li>

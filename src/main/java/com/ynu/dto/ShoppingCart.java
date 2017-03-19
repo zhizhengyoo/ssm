@@ -1,17 +1,18 @@
 package com.ynu.dto;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
  * Created by YANG on 2017/3/13.
  */
-public class ShoppingCart {
+public class ShoppingCart extends Book{
 
     private Integer shoppingCartId;
     private Integer bookId;
     private Integer userId;
-    private Date createTime;
+    private Timestamp createTime;
     private Integer counts;
 
     public Integer getShoppingCartId() {
@@ -38,11 +39,11 @@ public class ShoppingCart {
         this.userId = userId;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

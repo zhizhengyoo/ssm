@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ynu.mapper.ShoppingCartMapper">
+    <resultMap id="BaseResultMap" type="com.ynu.dto.ShoppingCart" >
+        <id column="SHOPPING_CART_ID" property="shoppingCartId" jdbcType="DECIMAL" />
+        <result column="BOOK_ID" property="bookId" jdbcType="DECIMAL" />
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+
+        <result column="BOOK_NAME" property="bookName" jdbcType="VARCHAR" />
+        <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+        <result column="BOOK_INFO" property="bookInfo" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="DECIMAL" />
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+        <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+        <result column="COVER" property="cover" jdbcType="VARCHAR" />
+        <result column="USE_HOURS_STATUS" property="useHoursStatus" jdbcType="VARCHAR" />
+        <result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+        <result column="PUBLISHING_COMPANY" property="publishingCompany" jdbcType="VARCHAR" />
+        <result column="USE_HOURS_ID" property="useHoursId" jdbcType="DECIMAL" />
+        <result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" />
+        <result column="SOLD_NUM" property="soldNum" jdbcType="DECIMAL" />
+        <result column="REMAIN_NUM" property="remainNum" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        SHOPPING_CART_ID, BOOK_ID,USER_ID,CREATE_TIME,COUNTS
+    </sql>
+
+    <insert id="insert">
+      INSERT INTO
+      sys_shopping_cart(BOOK_ID,USER_ID,CREATE_TIME,COUNTS)
+      VALUES (#{bookId},#{userId},#{createTime},#{counts})
+    </insert>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+       select * from sys_shopping_cart sc LEFT OUTER JOIN sys_book b ON sc.BOOK_ID = b.BOOK_ID
+    </select>
+
+</mapper>

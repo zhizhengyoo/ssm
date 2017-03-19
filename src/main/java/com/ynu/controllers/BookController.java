@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -35,13 +36,19 @@ public class BookController {
     private BookDetailImgService bookDetailImgService;
 
     @RequestMapping("/bookDetail/{id}")
-    public String bookDetail(@PathVariable Integer id , Model model) {
+    public String bookDetail(@PathVariable Integer id ,
+                             Model model,
+                             HttpServletRequest request) {
         Book book = bookService.selectByBookId(id);
         Category category = categoryService.selectBycId(categoryService.selectBycId(book.getCategoryId()).getParentCId());
         book.setCategoryParentName(category.getCategoryName());
         List<BookDetailImg> bookDetailImgs = bookDetailImgService.selectByBookId(id);
         model.addAttribute("book",book);
         model.addAttribute("details",bookDetailImgs);
+        if (request.getSession().getAttribute("addShoppingCartSuccess") != null){
+            model.addAttribute("addShoppingCartSuccess","添加购物车成功");
+            request.getSession().removeAttribute("addShoppingCartSuccess");
+        }
         return "bookDetail";
     }
 }
