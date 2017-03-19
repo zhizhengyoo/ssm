@@ -10,61 +10,54 @@
 					<div class="product">
 						<div class="col-md-6">
 							<div class="image">
-								<img src="images/galaxy-note.jpg" />
+								<img style="margin-left: 20%" src="${base.contextPath}/${book.cover}" />
 								<div class="image-more">
 									 <ul class="row">
-										 <li class="col-lg-3 col-sm-3 col-xs-4">
-											<a href="#"><img class="img-responsive" src="images/galaxy-note.jpg"></a>
-										</li>
-										 <li class="col-lg-3 col-sm-3 col-xs-4">
-											<a href="#"><img class="img-responsive" src="images/galaxy-note-2.jpg"></a>
-										</li>
-										 <li class="col-lg-3 col-sm-3 col-xs-4">
-											<a href="#"><img class="img-responsive" src="images/galaxy-note-3.jpg"></a>
-										</li>
-										 <li class="col-lg-3 col-sm-3 col-xs-4">
-											<a href="#"><img class="img-responsive" src="images/galaxy-note-4.jpg"></a>
-										</li>
+										 <#list details as detail>
+											 <li class="col-lg-3 col-sm-3 col-xs-4">
+												 <a href="#"><img class="img-responsive" src="${base.contextPath}/${detail.bookDetailImg}"></a>
+											 </li>
+										 </#list>
 									</ul>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="caption">
-								<div class="name"><h3>Aliquam erat volutpat</h3></div>
-								<div class="info">
-									<ul>
-										<li>Brand: text</li>
-										<li>ID: 0122222</li>
-									</ul>
+								<div class="bookInfo">
+									<div class="name"><h3>${book.bookName}</h3></div>
+									<div class="info">
+										<ul>
+											<li>作者: ${book.author}</li>
+											<li>出版社: ${book.publishingCompany}</li>
+										</ul>
+									</div>
+									<div class="well" style="padding: 15px;margin:10px 0">
+										<span style="font-size: 12px">当前价格：</span>
+										<div class="price" style="padding-left: 20px;margin:0">
+											${book.price}
+											<span>$98</span>
+										</div>
+									</div>
 								</div>
-								<div class="well price">
-									<#if book??>
-										${book.price}
-									</#if>
-									<span>$98</span></div>
-								<div class="options">
-									AVAILABLE OPTIONS
-									<select>
-										<option value="" selected>----Please Select----</option>
-										<option value="red">RED</option>
-										<option value="black">BLACK</option>
-									</select>
-								</div>
-								<div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
-								<div class="well"><label>Qty: </label> <input class="form-inline quantity" type="text" value="1"><a href="#" class="btn btn-2 ">ADD</a></div>
-								<div class="share well">
-									<strong style="margin-right: 13px;">Share :</strong>
-									<a href="#" class="share-btn" target="_blank">
-										<i class="fa fa-twitter"></i>
-									</a>
-									<a href="#" class="share-btn" target="_blank">
-										<i class="fa fa-facebook"></i>
-									</a>
-									<a href="#" class="share-btn" target="_blank">
-										<i class="fa fa-linkedin"></i>
-									</a>
-								</div>
+								<form action="${base.contextPath}/shoppingCart/${book.bookId}" method="post">
+									<div class="cartItem">
+										<div class="col-sm-3">
+											<input name="counts" class="form-control number" value="1" type="number" min="1">
+											<input name="bookId"  value="${book.bookId}" style="display: none"/>
+										</div>
+										<div class="col-sm-5">
+											<button class="btn btn-1" type="submit"><span class="glyphicon glyphicon-shopping-cart"></span>  加入购物车</button>
+										</div>
+										<script>
+
+										</script>
+										<div class="col-sm-4">
+											<button type="button" class="btn btn-info">立即购买</button>
+										</div>
+
+									</div>
+								</form>
 							</div>
 						</div>
 						<div class="clear"></div>

@@ -3,14 +3,14 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-6">
-                <a href="contact.html"><span class="glyphicon glyphicon-home"></span>  &nbsp;ebook首页</a>
+                <a href="${base.contextPath}/home"><span class="glyphicon glyphicon-home"></span>  &nbsp;ebook首页</a>
             </div>
             <div class="col-xs-6">
 
                 <ul class="top-link">
                     <#if login_success??>
                         <li><a id="userInfo"><span class="glyphicon glyphicon-user"></span> &nbsp; ${login_success.userName!"未命名"}</a></li>
-                        <li><a id="logout">退出</a></li>
+                        <li><a id="logout" href="${base.contextPath}/logout">退出</a></li>
                         <#else>
                             <li><a id="loginBtn" data-toggle="modal">登录</a></li>
                             <li><a id="signinBtn" data-toggle="modal">注册</a></li>
@@ -147,9 +147,7 @@
                 <button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
             </form>
         </div>
-        <div class="col-md-4">
-            <div id="cart"><a class="btn btn-1" href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>CART : 0 ITEM</a></div>
-        </div>
+
     </div>
 </header>
 

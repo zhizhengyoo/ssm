@@ -12,7 +12,6 @@ public class ShoppingCart {
     private Integer bookId;
     private Integer userId;
     private Date createTime;
-    private BigDecimal total;
     private Integer counts;
 
     public Integer getShoppingCartId() {
@@ -45,14 +44,6 @@ public class ShoppingCart {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
     }
 
     public Integer getCounts() {

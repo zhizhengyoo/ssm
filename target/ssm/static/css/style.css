@@ -200,10 +200,10 @@ header .form-search button:hover {color: #eee;}
 .product .buttons a {background-color: #eee;}
 .product .name {margin-top: 10px;}
 .product .name a span:nth-child(2){color: #b1b1b1}
-.product .name h3{font-weight: 500;font-size: 20px;color: #666;margin-top: 10px;}
-.product .info ul li{margin: 10px 0;}
-.product .price {font-size: 18px;margin: 10px 0;color: #f15a13;}
-.product .price span{color: #aaa;margin-left: 10px;text-decoration: line-through;}
+.product .name h3{font-weight: 500;font-size: 20px;color: #171717;margin-top: 10px;}
+.product .info ul li{font-size: 13px;color:#8a8a8a}
+.product .price {font-size: 20px;margin: 10px 0;color: #f15a13;}
+.product .price span{font-size:15px;color: #aaa;margin-left: 10px;text-decoration: line-through;}
 .product .rating{margin: 10px 0;}
 .product .rating span {margin-right: 5px;}
 .product .options {margin: 10px 0;}
@@ -213,7 +213,9 @@ header .form-search button:hover {color: #eee;}
 @media(max-width:767px) {.product{border: none;}}
 
 .product-desc{margin: 50px 0;}
-
+.bookInfo{border-bottom: 1px dashed #e3e3e3;padding: 0 5px 5px}
+.cartItem{padding: 10px 5px 5px}
+.cartItem .number{}
 .pricedetails {margin-top: 20px;}
 .pricedetails table td {padding-right: 70px;}
 

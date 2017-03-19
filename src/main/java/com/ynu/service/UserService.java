@@ -7,5 +7,5 @@ import com.ynu.dto.User;
  */
 public interface UserService {
     public void insertUser(User user);
-    public User userLogin(User user);
+    public User userLogin(String userName,String password);
 }

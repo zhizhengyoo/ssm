@@ -1,5 +1,6 @@
 package com.ynu.controllers;
 
+import com.sun.javafx.sg.prism.NGShape;
 import com.ynu.dto.*;
 import com.ynu.mapper.BookDetailImgMapper;
 import com.ynu.service.*;
@@ -49,15 +50,18 @@ public class CommonController {
     @RequestMapping("/home")
     public ModelAndView home() {
         ModelAndView mv = new ModelAndView("home");
-        /*mv.addObject("home","qixiangyu");*/
         List<Book> books = bookService.selectAll();
         mv.addObject("books",books);
         return mv;
     }
 
-
-
-
+    @RequestMapping("/login")
+    public String loginPage(HttpServletRequest request, Model model) {
+        String path = request.getParameter("returnUrl");
+        model.addAttribute("path",path);
+        request.setAttribute("returnUrl",path);
+        return "login";
+    }
 
     @RequestMapping(value = "/account_seller")
     public String AccountSeller(Model model, HttpSession session){
@@ -87,7 +91,7 @@ public class CommonController {
     }
 
 
-    @RequestMapping(value = "/addBook")
+    @RequestMapping(value = "/account_seller/addBook")
     public String addBook(@RequestParam("coverImg")MultipartFile file,
                           @RequestParam("file") MultipartFile[] detailImg,
                           @RequestParam("bookName")String bookName,
@@ -166,8 +170,7 @@ public class CommonController {
             String name = detail.getOriginalFilename();
             detailPath = detailPath+name;
             bookDetailImg.setBookId(bookId);
-            bookDetailImg.setBookDetailImg(detailPath);
-
+            bookDetailImg.setBookDetailImg(detailPath.substring(rootPath.length()));
             try{
                 detail.transferTo(new File(detailPath));
                 bookDetailImgMapper.insertBookDetailImg(bookDetailImg);
@@ -176,7 +179,7 @@ public class CommonController {
             }
 
         }
-        return "redirect:account_seller/onsellingBook";
+        return "redirect:/account_seller/onsellingBook";
     }
 
     @RequestMapping(value = "/account_seller/onsellingBook")

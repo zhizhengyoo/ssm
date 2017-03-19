@@ -3,14 +3,14 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-6">
-                <a href="account_seller"><span class="glyphicon glyphicon-home"></span>  &nbsp;卖家中心</a>
+                <a href="${base.contextPath}/account_seller"><span class="glyphicon glyphicon-home"></span>  &nbsp;卖家中心</a>
             </div>
             <div class="col-xs-6">
 
                 <ul class="top-link">
                     <#if login_success??>
                         <li><a id="userInfo"><span class="glyphicon glyphicon-user"></span> &nbsp; ${login_success.userName!"未命名"}</a></li>
-                        <li><a id="logout">退出</a></li>
+                        <li><a id="logout" href="${base.contextPath}/logout">退出</a></li>
                         <#else>
                             <li><a id="loginBtn" data-toggle="modal">登录</a></li>
                             <li><a id="signinBtn" data-toggle="modal">注册</a></li>
@@ -46,7 +46,7 @@
                 <div id="myTabContent" class="tab-content">
 
                     <div class="tab-pane fade in active" id="loginDiv">
-                        <form method="post" action="login" class="form-horizontal">
+                        <form method="post" action="${base.contextPath}/logins" class="form-horizontal">
                             <div class="form-group">
                                 <label for="userNameLogin" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
@@ -74,7 +74,7 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="signin">
-                        <form id="signForm" method="post" action="/ssm/register" class="form-horizontal">
+                        <form id="signForm" method="post" action="${base.contextPath}/register" class="form-horizontal">
                             <div class="form-group">
                                 <div class="dropdown col-sm-4">
                                     <select id="signinMode" class="form-control">
@@ -160,7 +160,7 @@
 <header class="container">
     <div class="row">
         <div class="col-md-4">
-            <div id="logo"><img src="static/images/logo12.png" /></div>
+            <div id="logo"><img src="${base.contextPath}/static/images/logo12.png" /></div>
         </div>
         <div class="col-md-4">
             <form class="form-search">

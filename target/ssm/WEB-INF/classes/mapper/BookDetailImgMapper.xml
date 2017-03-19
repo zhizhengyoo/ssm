@@ -19,6 +19,10 @@
         VALUES (#{bookId},#{bookDetailImg})
     </insert>
 
+    <select id="selectByBookId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_book_detail_img WHERE BOOK_ID = #{bookId}
+    </select>
 
 
 </mapper>

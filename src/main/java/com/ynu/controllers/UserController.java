@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -42,25 +43,32 @@ public class UserController {
         return "redirect:home";
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/logout",method =RequestMethod.GET)
+    public String Logout(HttpSession session,HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:home";
+    }
+
+    @RequestMapping(value = "/logins",method = RequestMethod.POST)
     public String Login(@RequestParam("userName") String userName,
                         @RequestParam("password")String password,
                         HttpSession session,
+                        HttpServletRequest request,
+                        HttpServletResponse response,
                         Model model){
-        User user = new User();
-        password = MD5Util.getPwd(password);
-        user.setPassword(password);
-        if (userName.contains("@")){
-            user.setEmail(userName);
-        }else {
-            user.setPhone(userName);
-        }
-        User user1 = userService.userLogin(user);
-        if (userService.userLogin(user) != null){
-            session.setAttribute("login_success",user1);
+        User user = userService.userLogin(userName,password);
+        String path = (String)request.getSession().getAttribute("returnUrl");
+        if (user != null){
+            session.setAttribute("login_success",user);
+            if (path != null){
+                return "redirect:"+path;
+            }else {
+                return "redirect:home";
+            }
         }else{
             model.addAttribute("login_error","账号信息错误，请重新登陆");
+            return "login";
         }
-        return "redirect:home";
+
     }
 }
