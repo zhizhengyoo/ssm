@@ -164,44 +164,85 @@ header .form-search button:hover {color: #eee;}
 #page-content.home-page{margin: 10px 0;}
 #page-content.single-page {margin: 50px 0;}
 #page-content .row{ margin-bottom: 30px;}
-#page-content .row .image img{
+
+/* ---------------------------------------------------------------------------- */
+/* -----------------------------------ShoppingCart---------------------------------- */
+/* ---------------------------------------------------------------------------- */
+#page-content .shoppingCart .row .image img{
     height: 80px;
     width: 80px;
 }
-#page-content .row .nameinfo {
+.shoppingCarts{
+    display: inline-flex;width: 100%;height: 120px;
+}
+
+.shoppingCarts:after, .product:before{clear: both; content: '\0020'; display: block; visibility: hidden; width: 0; height: 0;}
+.shoppingCarts .image-more {margin-top: 15px;}
+.shoppingCarts .image-more img{border: 1px solid #DDD;max-height: 85px;margin-bottom: 10px;}
+.shoppingCarts .buttons {margin: 10px 0;}
+.shoppingCarts .buttons a {background-color: #eee;}
+.shoppingCarts .name {margin-top: 10px;}
+.shoppingCarts .name a span:nth-child(2){color: #b1b1b1}
+.shoppingCarts .name h3{font-weight: 500;font-size: 20px;color: #171717;margin-top: 10px;}
+.shoppingCarts .info ul li{font-size: 13px;color:#8a8a8a}
+.shoppingCarts .price {font-size: 20px;margin: 10px 0;color: #f15a13;}
+.shoppingCarts .price span{font-size:15px;color: #aaa;margin-left: 10px;text-decoration: line-through;}
+.shoppingCarts .rating{margin: 10px 0;}
+.shoppingCarts .rating span {margin-right: 5px;}
+.shoppingCarts .options {margin: 10px 0;}
+.shoppingCarts .options select{border: 1px solid #eee; width: 100%;}
+.shoppingCarts input.form-inline {border-radius: 4px;border: 1px solid #ccc;padding: 4px 6px;width: 40px;}
+.shoppingCarts .share .share-btn {margin-right: 25px;padding-top: 20px;}
+@media(max-width:767px) {.product{border: none;}}
+
+.shoppingCarts-desc{margin: 50px 0;}
+
+
+#page-content .shoppingCart .row .nameinfo {
     display: inline-flex;
     margin-top: 30px;
 }
-#page-content .row .author {
+#page-content .shoppingCart .row .author {
     margin-top: -28px;
-    margin-left: -160px;
+    margin-left: 10px;
+    width:120px;
 }
-#page-content .row .author .info {
+#page-content .shoppingCart .row .author .info {
     margin-left: -57px;
 }
-#page-content .row .info ul {
+#page-content .shoppingCart .row .info ul {
     display: inline-flex;
     margin-left: 55px;
 }
-#page-content .row .info ul:last-child {
+#page-content .shoppingCart .row .info ul:last-child {
     display: inline-flex;
     margin-left: 55px;
 }
-#page-content .row .price {
-    margin-left: 175px;
+#page-content .shoppingCart .row .price {
+    margin-top: -2px;
 }
-#page-content .row .nameinfo label {
-    margin-left: 240px;
+#page-content .shoppingCart .row .nameinfo label {
+    margin-left: 40px;
+    margin-top: -2px;
 }
-#page-content .row .nameinfo .quantity {
-    margin-left: 5px;
+#page-content .shoppingCart .row .nameinfo .quantity {
+    margin-left: 15px;
     height: 32px;
+    margin-top: -2px;
 }
-#page-content .row .nameinfo .update {
+#page-content .shoppingCart .row .checkboxs{
+    margin-top: 30px;
+}
+#page-content .shoppingCart .row .operateBtn{
+    margin-left:92px;
+    margin-top: 35px;
+    padding-left: 40px;
+}
+#page-content .shoppingCart .row .nameinfo .update {
     margin-left: 160px;
     height: 32px;
 }
-#page-content .row .nameinfo .remove {
+#page-content .shoppingCart .row .nameinfo .remove {
     margin-left: 12px;
     height: 32px;
 }
@@ -228,7 +269,7 @@ header .form-search button:hover {color: #eee;}
 .products:after, .products:before{clear: both; content: '\0020'; display: block; visibility: hidden; width: 0; height: 0;}
 .products .product{margin-bottom: 50px;}
 
-.product { display: inline-flex;width: 100%;height: 120px;}
+.product {}
 .product .image img{
     height: 150px;
     width: 140px;
@@ -367,4 +408,11 @@ footer .copyright ul li {display: inline-block;margin-left: 10px;}
     margin-right: 15px;
 }
 .btn.btn-2{margin-left: 5px;background: #D9534F;color: #fff;}
+
+.k-grid tr td{
+    border: none;
+}
+.k-grid td{
+    border: none;
+}
 

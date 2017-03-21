@@ -37,7 +37,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     public List<ShoppingCart> selectByUserId(Integer userId){
-        PageHelper.startPage(1,2);
         return shoppingCartMapper.selectByUserId(userId);
     }
 }

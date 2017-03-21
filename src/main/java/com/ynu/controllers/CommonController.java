@@ -102,6 +102,7 @@ public class CommonController {
                           @RequestParam("counts") Integer counts,
                           @RequestParam("categoryId") String categoryId,
                           @RequestParam("bookInfo") String bookInfo,
+                          @RequestParam("freight") BigDecimal freight,
                           HttpServletRequest request,
                           HttpServletResponse response){
         String coverName = file.getOriginalFilename();
@@ -120,6 +121,7 @@ public class CommonController {
         book.setCategoryId(Integer.parseInt(categoryId));
         book.setTotalNum(counts);
         book.setRemainNum(counts);
+        book.setFreight(freight);
         try{
             userName = ((User) user).getUserName();
         }catch (Exception e){

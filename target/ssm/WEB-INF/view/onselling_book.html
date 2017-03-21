@@ -47,7 +47,8 @@
                     fields:{
                        'bookName':{},
                         'price':{type:'number'},
-                        'remainNum':{type:'number'}
+                        'remainNum':{type:'number'},
+                        'freight':{type:'number'}
                     }
                 }
             },
@@ -104,6 +105,20 @@
                     title:"价格",
                     template:function (e) {
                         return e["price"]+"  元" || ""
+                    },
+                    headerAttributes: {
+                        "class": "table-header-cell",
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center; font-size: 14px"
+                    }
+                },{
+                    field:"freight",
+                    title:"邮费",
+                    template:function (e) {
+                        return e["freight"]+"  元" || ""
                     },
                     headerAttributes: {
                         "class": "table-header-cell",

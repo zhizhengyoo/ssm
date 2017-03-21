@@ -17,11 +17,12 @@
         <result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" />
         <result column="SOLD_NUM" property="soldNum" jdbcType="DECIMAL" />
         <result column="REMAIN_NUM" property="remainNum" jdbcType="DECIMAL" />
+        <result column="FREIGHT" property="freight" javaType="DECIMAL" />
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        BOOK_ID,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,USE_HOURS_ID,TOTAL_NUM,SOLD_NUM,REMAIN_NUM
+        BOOK_ID,FREIGHT,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,USE_HOURS_ID,TOTAL_NUM,SOLD_NUM,REMAIN_NUM
     </sql>
 
 
@@ -32,19 +33,19 @@
 
     <insert id="insertBook">
       INSERT INTO
-		sys_book(BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,USE_HOURS_ID,TOTAL_NUM,REMAIN_NUM)
-		values(#{bookName},#{author},#{bookInfo},#{price},#{userId},#{categoryId},#{cover},#{publishingCompany},#{useHoursId},#{totalNum},#{remainNum})
+		sys_book(FREIGHT,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,USE_HOURS_ID,TOTAL_NUM,REMAIN_NUM)
+		values(#{freight},#{bookName},#{author},#{bookInfo},#{price},#{userId},#{categoryId},#{cover},#{publishingCompany},#{useHoursId},#{totalNum},#{remainNum})
     </insert>
 
     <update id="updateBook">
-        update sys_book set BOOK_NAME=#{bookName},AUTHOR=#{author},BOOK_INFO=#{bookInfo},PRICE=#{price},CATEGORY_ID=#{categoryId},COVER=#{cover},PUBLISHING_COMPANY=#{publishingCompany},USE_HOURS_ID=#{useHoursId},TOTAL_NUM=#{totalNum},REMAIN_NUM=#{remainNum} where BOOK_ID = #{bookId};
+        update sys_book set BOOK_NAME=#{bookName},AUTHOR=#{author},BOOK_INFO=#{bookInfo},PRICE=#{price},CATEGORY_ID=#{categoryId},COVER=#{cover},PUBLISHING_COMPANY=#{publishingCompany},USE_HOURS_ID=#{useHoursId},TOTAL_NUM=#{totalNum},REMAIN_NUM=#{remainNum},FREIGHT=#{freight} where BOOK_ID = #{bookId};
     </update>
     <delete id="destroyBook">
         DELETE FROM sys_book WHERE BOOK_ID = #{bookId}
     </delete>
 
     <select id="selectByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT b.BOOK_ID,TOTAL_NUM,SOLD_NUM,REMAIN_NUM,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        SELECT b.BOOK_ID,TOTAL_NUM,FREIGHT,SOLD_NUM,REMAIN_NUM,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
         b.USE_HOURS_ID,c.CATEGORY_NAME,u.USE_HOURS_STATUS
         from sys_book b
         LEFT OUTER JOIN sys_category c ON (c.CATEGORY_ID = b.CATEGORY_ID)
@@ -59,14 +60,11 @@
     </select>
 
     <select id="selectByBookId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT b.BOOK_ID,TOTAL_NUM,SOLD_NUM,REMAIN_NUM,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        SELECT b.BOOK_ID,FREIGHT,TOTAL_NUM,SOLD_NUM,REMAIN_NUM,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
         b.USE_HOURS_ID,c.CATEGORY_NAME,u.USE_HOURS_STATUS
         from sys_book b
         LEFT OUTER JOIN sys_category c ON (c.CATEGORY_ID = b.CATEGORY_ID)
         LEFT OUTER JOIN sys_use_hours u ON (u.USE_HOURS_ID = b.USE_HOURS_ID)
         WHERE BOOK_ID = #{bookId}
     </select>
-
-
-
 </mapper>

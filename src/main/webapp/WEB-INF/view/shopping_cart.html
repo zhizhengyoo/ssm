@@ -4,69 +4,205 @@
         <!--///////////////////Product Page///////////////////-->
         <!--//////////////////////////////////////////////////-->
         <div id="page-content" class="single-page">
-            <div class="container">
-                <#list shoppingCarts as shoppingCart>
-                    <div class="row">
-                        <div class="product well">
-                            <div class="col-md-3">
-                                <div class="image">
-                                    <img src="${base.contextPath}/${shoppingCart.cover}" />
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                    <div class="nameinfo">
-                                        <div class="author">
-                                    <div class="name"><h3><a href="product.html">${shoppingCart.bookName}</a></h3></div>
-                                    <div class="info">
-                                        <ul>
-                                            <li>${shoppingCart.author}</li>
-                                            <li>ID: ${shoppingCart.publishingCompany}</li>
-                                        </ul>
-                                    </div>
-                                            </div>
-                                    <div class="price">${shoppingCart.price}<span>$98</span></div>
-                                    <label>Qty: </label> <input class="form-inline quantity" type="text" value="1"><a href="#" class="btn btn-2 update">Update</a>
-                                    <hr>
-                                    <a href="#" class="btn btn-default pull-right remove">REMOVE</a>
-                                </div>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                </#list>
+            <div class="col-md-7 col-md-offset-1" style="padding: 0 20px 20px 0">
+                <div id="grid" ></div>
+            </div>
 
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-8 ">
-                        <center><a href="#" class="btn btn-1">Continue To Shopping</a></center>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="pricedetails">
-                        <div class="col-md-4 col-md-offset-8">
-                            <table>
-                                <h6>Price Details</h6>
-                                <tr>
-                                    <td>Total</td>
-                                    <td>350.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Discount</td>
-                                    <td>-----</td>
-                                </tr>
-                                <tr>
-                                    <td>Delivery Charges</td>
-                                    <td>100.00</td>
-                                </tr>
-                                <tr style="border-top: 1px solid #333">
-                                    <td><h5>TOTAL</h5></td>
-                                    <td>400.00</td>
-                                </tr>
-                            </table>
-                            <center><a href="#" class="btn btn-1">Checkout</a></center>
-                        </div>
-                    </div>
+            <script>
+                var dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url: "shoppingCarts/query",
+                            dataType : "json"
+                        },
+                        update: {
+                            url: "onsellingBook/update",
+                            type:"POST",
+                            contentType:'application/json',
+                            /*dataType:"json",*/
+                            data:function (e) {
+                                return e;
+                            }
+                        },
+                        destroy: {
+                            url: "onsellingBook/destroy",
+                            type:"POST",
+                            contentType:'application/json',
+                            /*dataType:"json",*/
+                            data:function (e) {
+                                return e;
+                            }
+                        },
+                        parameterMap : function(options, type) {
+                            if (type !== "read" && options) {
+                                /*const optionTwo = kendo.stringify(options);
+                                 const newOption = optionTwo;*/
+                                return kendo.stringify(options);
+                            }
+                        }
+
+                    },
+                    schema: {
+                        model: {
+                            id: "shoppingCartId",
+                            fields:{
+                                'bookName':{editable: false,},
+                                'price':{editable: false},
+                                'freight':{editable: false},
+                                'cover':{editable: false},
+                                'counts':{type:'number'}
+                            }
+                        }
+                    },
+                });
+                var finalData = [];
+                $("#grid").on('click',function (e) {
+                    var grid = $("#grid").data("kendoGrid");
+                    var selectedRows = grid.select();
+                    var selectedDataItems = [];
+                       for (var i = 0; i < selectedRows.length; i++) {
+                           var dataItem = grid.dataItem(selectedRows[i]);
+                           selectedDataItems.push(dataItem);
+                       };
+                      var priceSum = 0;
+                      var freightSum = 0;
+                    selectedDataItems.map(function (key) {
+                        priceSum += key.price;
+                        freightSum += key.freight;
+                    });
+                    $('#totalPrice').text("总价："+priceSum);
+                    $('#totalFreight').text("运费："+freightSum);
+                    $('#totalSum').text("数量："+selectedDataItems.length);
+                    $('#total').text("总价："+(priceSum+freightSum));
+                    finalData = selectedDataItems;
+                } );
+                function submit(){
+                    $.ajax();
+                };
+                $("#grid").kendoGrid({
+                    dataSource: dataSource,
+                    selectable: 'multiple, rowbox',
+//                    change:function (e) {
+//                        var selectedRows = this.select();
+//                        var selectedDataItems = [];
+//                        for (var i = 0; i < selectedRows.length; i++) {
+//                            var dataItem = this.dataItem(selectedRows[i]);
+//                            selectedDataItems.push(dataItem);
+//                        };
+//                        console.log(selectedDataItems);
+//                    },
+                    toolbar: [
+
+                        {
+                            name: "save",
+                            template: '<span class="btn btn-success" onclick="saveLov()">保存</span>'
+                        },
+                        {
+                            template: '<span  onclick="deleteData()"  class="btn btn-danger">删除</span>'
+                        }, {
+                            name: "cancel",
+                            template: '<span class="btn btn-default k-grid-cancel-changes">取消</span>'
+                        }
+                    ],
+                    pageable : false,
+                    height:500,
+                    editable:true,
+                    columns:[
+                        {
+                            field:"cover",
+                            title:"封面",
+                            template:function (e) {
+                                return '<img style="width: 80px;height: 80px" src="${base.contextPath}/'+e.cover+'">'
+                            },
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px;border:none"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            }
+                        },{
+                            field:"bookName",
+                            title:"书名",
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            menu: false,
+                            editable:false,
+                        },{
+                            field:"author",
+                            title:"作者",
+                            hidden:true,
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                        },{
+                            field:"price",
+                            title:"价格",
+                            template:function (e) {
+                                return e["price"]+"  元" || ""
+                            },
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            }
+                        },{
+                            field:"freight",
+                            title:"邮费",
+                            template:function (e) {
+                                return e["freight"]+"  元" || ""
+                            },
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            }
+                        },{
+                            field:"counts",
+                            title:"数量",
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                        }],
+                });
+
+            </script>
+
+            <div class="col-md-3 well" id="contentTable">
+                <div>
+                    <ul>
+                        <li id='totalPrice'></li>
+                        <li id='totalFreight'></li>
+                        <li id='totalSum'></li>
+                        <li id="total"></li>
+                        <li><button onclick="submit()">提交</button></li>
+                    </ul>
                 </div>
             </div>
+            <div class="clearfix"></div>
         </div>
         <footer>
             <div class="container">

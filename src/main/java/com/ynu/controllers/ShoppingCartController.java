@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.jws.soap.SOAPBinding;
@@ -52,10 +53,17 @@ public class ShoppingCartController {
     }
 
     @RequestMapping("shoppingCart")
-    public String shoppingCartPage(HttpServletRequest request,Model model){
-        User user = (User)request.getSession().getAttribute("login_success");
-        List<ShoppingCart> shoppingCarts = shoppingCartService.selectByUserId(user.getUserId());
-        model.addAttribute("shoppingCarts",shoppingCarts);
+    public String shoppingCartPage(){
         return "shopping_cart";
     }
+
+    @RequestMapping("shoppingCarts/query")
+    @ResponseBody
+    public List<ShoppingCart> shoppingCartQuery(HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("login_success");
+        List<ShoppingCart> shoppingCarts = shoppingCartService.selectByUserId(user.getUserId());
+        return shoppingCarts;
+    }
+
+
 }

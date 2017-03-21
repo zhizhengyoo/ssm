@@ -17,6 +17,7 @@ public class Book {
     private Integer totalNum;
     private Integer soldNum;
     private Integer remainNum;
+    private BigDecimal freight;
 
     private Integer userId;
     private Integer categoryId;
@@ -25,6 +26,14 @@ public class Book {
     private String categoryName;
     private String categoryParentName;
     private String useHoursStatus;
+
+    public BigDecimal getFreight() {
+        return freight;
+    }
+
+    public void setFreight(BigDecimal freight) {
+        this.freight = freight;
+    }
 
     public Integer getTotalNum() {
         return totalNum;
