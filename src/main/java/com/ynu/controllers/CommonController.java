@@ -57,9 +57,6 @@ public class CommonController {
 
     @RequestMapping("/login")
     public String loginPage(HttpServletRequest request, Model model) {
-        String path = request.getParameter("returnUrl");
-        model.addAttribute("path",path);
-        request.setAttribute("returnUrl",path);
         return "login";
     }
 
@@ -235,4 +232,13 @@ public class CommonController {
         return book;
     }
 
+    @RequestMapping("account")
+    public String accountPage(){
+        return "account";
+    }
+
+    @RequestMapping("accountDetail")
+    public String accountDetailPage(){
+        return "accountDetail";
+    }
 }

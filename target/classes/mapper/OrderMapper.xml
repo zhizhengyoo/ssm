@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ynu.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.ynu.dto.Order" >
+        <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+        <result column="SELLER_ID" property="sellerId" jdbcType="DECIMAL" />
+        <result column="BOOK_PRICE" property="bookPrice" jdbcType="DECIMAL" />
+        <result column="FREIGHT" property="freight" jdbcType="DECIMAL" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        ORDER_ID, USER_ID,STATUS,TOTAL_PRICE,SELLER_ID,BOOK_PRICE,FREIGHT,CREATE_TIME
+    </sql>
+
+    <select id="selectLasted" resultMap="BaseResultMap">
+        SELECT * from sys_order ORDER BY ORDER_ID DESC LIMIT 1
+    </select>
+
+    <insert id="insert">
+      INSERT INTO sys_order(USER_ID,SELLER_ID,CREATE_TIME,BOOK_PRICE,FREIGHT,TOTAL_PRICE) VALUES (#{userId},#{sellerId},#{createTime},#{bookPrice},#{freight},#{totalPrice})
+    </insert>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ynu.mapper.OrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.ynu.dto.OrderDetail" >
+        <id column="ORDER_DETAIL_ID" property="orderDetailId" jdbcType="DECIMAL" />
+        <result column="BOOK_ID" property="bookId" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        ORDER_DETAIL_ID, BOOK_ID,ORDER_ID,COUNTS
+    </sql>
+    <insert id="insert">
+        INSERT INTO sys_order_detail(BOOK_ID,ORDER_ID,COUNTS) VALUES (#{bookId},#{orderId},#{counts})
+    </insert>
+</mapper>

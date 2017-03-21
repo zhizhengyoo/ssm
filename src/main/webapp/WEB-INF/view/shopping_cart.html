@@ -3,24 +3,6 @@
         <!--//////////////////////////////////////////////////-->
         <!--///////////////////Product Page///////////////////-->
         <!--//////////////////////////////////////////////////-->
-        <script type="text/javascript">
-            var viewModel = kendo.observable({
-                model : {},
-                saveFunction : function() {
-                    $('#grid').data('kendoGrid').saveChanges();
-                },
-                queryFunction : function(e) {
-                    $('#grid').data('kendoGrid').dataSource.page(1);
-                },
-                resetForm : function(e) {
-                    var formData = viewModel.model.toJSON();
-                    for ( var k in formData) {
-                        viewModel.model.set(k, null);
-                    }
-                }
-            });
-
-        </script>
         <div id="page-content" class="single-page">
             <div class="col-md-7 col-md-offset-1" style="padding: 0 20px 20px 0">
                 <div id="grid" ></div>
@@ -95,18 +77,15 @@
                     $('#totalSum').text(selectedDataItems.length);
                     $('#total').text(priceSum+freightSum);
                     finalData = selectedDataItems;
-                    console.log(finalData);
                 } );
-                function submit(){
-                    $.ajax();
-                };
+
                 $("#grid").kendoGrid({
                     dataSource: dataSource,
                     selectable: 'multiple, rowbox',
                     toolbar: [
                         {
                             name: "save",
-                            template: '<span data-bind="click:saveFunction" class="btn btn-success k-grid-save-changes">#=text#</span>'
+                            template: '<span onclick="saveFunction()" class="btn btn-success k-grid-save-changes">#=text#</span>'
                         },
                         {
                             template: '<span  onclick="deleteData()"  class="btn btn-danger">删除</span>'
@@ -219,6 +198,10 @@
                             },
                         }],
                 });
+
+                function  saveFunction () {
+                    $('#grid').data('kendoGrid').saveChanges();
+                };
                 function deleteData() {
                     var grid = $("#grid").data("kendoGrid");
                     debugger;
@@ -236,7 +219,8 @@
                             }
                         })
                     }
-                }
+                };
+
             </script>
 
             <div class="col-md-3 well" id="contentTable">
@@ -246,9 +230,61 @@
                         <li>运费：<p id='totalFreight'>0</p> </li>
                         <li>数量：<p id='totalSum'>0</p> </li>
                         <li>结算： <p id="total">0</p> </li>
-                        <li><button style="float: right;" class="btn btn-warning" onclick="submit()">提交</button></li>
+                        <li><button id="submit" onclick="test()" style="float: right;" class="btn btn-warning">提交</button></li>
                     </ul>
                 </div>
+                <script>
+
+                  function test() {
+                      debugger;
+                      $.ajax({
+                          type: "POST",
+                          url: "${base.contextPath}/order/insert",
+                          contentType:'application/json',
+                          data: JSON.stringify(finalData),
+                          dataType: "json",
+                          success: function(data){
+                              debugger;
+                              kendo.ui.showInfoDialog({
+                                  title: "提示",
+                                  message: "提交成功",
+                                  buttons: [{
+                                      text: "继续逛",
+                                      type: 'primary',
+                                      click: function (e) {
+                                          e.dialog.destroy();
+                                          e.deferred.resolve({
+                                              button: "cancel"
+                                          });
+                                      }
+                                  }, {
+                                      text: "去支付",
+                                      type: 'success',
+                                      click: function (e) {
+                                          e.dialog.destroy();
+                                          e.deferred.resolve({
+                                              button: "OK"
+                                          });
+                                      }
+                                  }]
+                              }).done(function (event) {
+                                  if (event.button == 'OK') {
+                                      window.location = "${base.contextPath}/"
+                                  }else {
+                                      $.each(finalData, function (i, v) {
+                                          $("#grid").data("kendoGrid").dataSource.remove(v)
+                                      })
+                                      grid.dataSource.sync();
+                                  }
+                              })
+
+                          },
+                          error:function (e) {
+                              debugger;
+                          }
+                      });
+                  }
+                </script>
             </div>
             <div class="clearfix"></div>
         </div>

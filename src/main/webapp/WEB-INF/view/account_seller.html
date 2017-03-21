@@ -23,6 +23,7 @@
 					</div>
 				</div>
 				<script>
+
 					function changeActive(e) {
 						if(e.className != "active"){
 							$("#bookUl >li.active").removeClass("active");
@@ -32,13 +33,14 @@
 				</script>
 				<div class="tab-content col-md-10" style="border: none" >
 					<div id="publish_book" role="tabpanel" class="tab-pane active">
-						<iframe style="height: 600px;width: 100%"
+						<iframe
+								id="frame"
+								style="height: 600px;width: 100%"
 								scrolling="no" class="col-md-11" name="publish_book"
 								frameborder="0"
 								src="account_seller/onsellingBook"></iframe>
 						<div style="clear: both"></div>
 					</div>
-
 					<div id="onSelling" role="tabpanel" class="tab-pane">
 						<div class="heading"><h2>出售中的书籍</h2></div>
 						<form name="form2" id="onSelling_form" method="post" action="register.php">
