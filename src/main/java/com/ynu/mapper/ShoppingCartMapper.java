@@ -12,4 +12,8 @@ public interface ShoppingCartMapper {
     public void insert(ShoppingCart shoppingCart);
 
     public List<ShoppingCart> selectByUserId(Integer userId);
+
+    public void update(ShoppingCart shoppingCart);
+
+    public void delete(ShoppingCart shoppingCart);
 }

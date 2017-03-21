@@ -32,22 +32,7 @@ public class PermisionFilter implements Filter {
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login");
                 requestDispatcher.forward(req, resp);
             }
-            System.out.println("servletpath"+path);
-
         }else{
-            /*if(flag!=null&&flag.equals("login_success")){
-                chain.doFilter(request, response);
-            }else if(flag!=null&&flag.equals("login_error")){
-                req.setAttribute("msg","登陆失败，请重新登陆！");
-                req.setAttribute("return_uri",path);
-                RequestDispatcher rd = req.getRequestDispatcher("/filter/login.jsp");
-            }else{
-                System.out.println("debg");
-                req.setAttribute("msg","您还没有登陆！");
-                req.setAttribute("return_uri",path);
-                RequestDispatcher rd = req.getRequestDispatcher("/filter/login.jsp");
-                rd.forward(req, resp);
-            }*/
             chain.doFilter(request, response);
         }
 

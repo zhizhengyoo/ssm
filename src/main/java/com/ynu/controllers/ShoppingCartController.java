@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.jws.soap.SOAPBinding;
@@ -64,6 +61,21 @@ public class ShoppingCartController {
         List<ShoppingCart> shoppingCarts = shoppingCartService.selectByUserId(user.getUserId());
         return shoppingCarts;
     }
+
+    @RequestMapping("shoppingCarts/update")
+    @ResponseBody
+    public ShoppingCart shoppingCartUpdate(HttpServletRequest request, @RequestBody ShoppingCart shoppingCart){
+        shoppingCartService.update(shoppingCart);
+        return shoppingCart;
+    }
+
+    @RequestMapping("shoppingCarts/delete")
+    @ResponseBody
+    public ShoppingCart shoppingCartDelete(HttpServletRequest request, @RequestBody ShoppingCart shoppingCart){
+        shoppingCartService.delete(shoppingCart);
+        return shoppingCart;
+    }
+
 
 
 }

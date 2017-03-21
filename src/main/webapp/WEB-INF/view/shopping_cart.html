@@ -3,6 +3,24 @@
         <!--//////////////////////////////////////////////////-->
         <!--///////////////////Product Page///////////////////-->
         <!--//////////////////////////////////////////////////-->
+        <script type="text/javascript">
+            var viewModel = kendo.observable({
+                model : {},
+                saveFunction : function() {
+                    $('#grid').data('kendoGrid').saveChanges();
+                },
+                queryFunction : function(e) {
+                    $('#grid').data('kendoGrid').dataSource.page(1);
+                },
+                resetForm : function(e) {
+                    var formData = viewModel.model.toJSON();
+                    for ( var k in formData) {
+                        viewModel.model.set(k, null);
+                    }
+                }
+            });
+
+        </script>
         <div id="page-content" class="single-page">
             <div class="col-md-7 col-md-offset-1" style="padding: 0 20px 20px 0">
                 <div id="grid" ></div>
@@ -16,25 +34,26 @@
                             dataType : "json"
                         },
                         update: {
-                            url: "onsellingBook/update",
+                            url: "shoppingCarts/update",
                             type:"POST",
                             contentType:'application/json',
                             /*dataType:"json",*/
                             data:function (e) {
+                                debugger;
                                 return e;
                             }
                         },
                         destroy: {
-                            url: "onsellingBook/destroy",
+                            url: "shoppingCarts/delete",
                             type:"POST",
                             contentType:'application/json',
-                            /*dataType:"json",*/
                             data:function (e) {
                                 return e;
                             }
                         },
                         parameterMap : function(options, type) {
                             if (type !== "read" && options) {
+                                debugger;
                                 /*const optionTwo = kendo.stringify(options);
                                  const newOption = optionTwo;*/
                                 return kendo.stringify(options);
@@ -46,11 +65,12 @@
                         model: {
                             id: "shoppingCartId",
                             fields:{
-                                'bookName':{editable: false,},
+                                'bookName':{editable: false},
                                 'price':{editable: false},
                                 'freight':{editable: false},
                                 'cover':{editable: false},
-                                'counts':{type:'number'}
+                                'counts':{type:'number',min: 1},
+                                'total':{editable: false}
                             }
                         }
                     },
@@ -67,14 +87,15 @@
                       var priceSum = 0;
                       var freightSum = 0;
                     selectedDataItems.map(function (key) {
-                        priceSum += key.price;
+                        priceSum += key.price*key.counts;
                         freightSum += key.freight;
                     });
-                    $('#totalPrice').text("总价："+priceSum);
-                    $('#totalFreight').text("运费："+freightSum);
-                    $('#totalSum').text("数量："+selectedDataItems.length);
-                    $('#total').text("总价："+(priceSum+freightSum));
+                    $('#totalPrice').text(priceSum);
+                    $('#totalFreight').text(freightSum);
+                    $('#totalSum').text(selectedDataItems.length);
+                    $('#total').text(priceSum+freightSum);
                     finalData = selectedDataItems;
+                    console.log(finalData);
                 } );
                 function submit(){
                     $.ajax();
@@ -82,20 +103,10 @@
                 $("#grid").kendoGrid({
                     dataSource: dataSource,
                     selectable: 'multiple, rowbox',
-//                    change:function (e) {
-//                        var selectedRows = this.select();
-//                        var selectedDataItems = [];
-//                        for (var i = 0; i < selectedRows.length; i++) {
-//                            var dataItem = this.dataItem(selectedRows[i]);
-//                            selectedDataItems.push(dataItem);
-//                        };
-//                        console.log(selectedDataItems);
-//                    },
                     toolbar: [
-
                         {
                             name: "save",
-                            template: '<span class="btn btn-success" onclick="saveLov()">保存</span>'
+                            template: '<span data-bind="click:saveFunction" class="btn btn-success k-grid-save-changes">#=text#</span>'
                         },
                         {
                             template: '<span  onclick="deleteData()"  class="btn btn-danger">删除</span>'
@@ -178,6 +189,26 @@
                         },{
                             field:"counts",
                             title:"数量",
+                            editor:function(container, options) {
+                                $(
+                                        '<input style="width: 100%;" type="number" min="1" name="' + options.field + '"/>')
+                                        .appendTo(container)
+                            },
+                            headerAttributes: {
+                                "class": "table-header-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center; font-size: 14px"
+                            },
+                        },{
+                            field:"total",
+                            title:"总价",
+                            editable:false,
+                            template:function (e) {
+                                return e["freight"]+e["price"]*e["counts"]+"  元" || ""
+                            },
                             headerAttributes: {
                                 "class": "table-header-cell",
                                 style: "text-align: center; font-size: 14px"
@@ -188,17 +219,34 @@
                             },
                         }],
                 });
-
+                function deleteData() {
+                    var grid = $("#grid").data("kendoGrid");
+                    debugger;
+                    var checked  = grid.selectedDataItems();
+                    if (grid.selectedDataItems().length) {
+                        kendo.ui.showConfirmDialog({
+                            title: "提示",
+                            message: "确认删除？"
+                        }).done(function (event) {
+                            if (event.button == 'OK') {
+                                $.each(checked, function (i, v) {
+                                    grid.dataSource.remove(v)
+                                })
+                                grid.dataSource.sync();
+                            }
+                        })
+                    }
+                }
             </script>
 
             <div class="col-md-3 well" id="contentTable">
                 <div>
                     <ul>
-                        <li id='totalPrice'></li>
-                        <li id='totalFreight'></li>
-                        <li id='totalSum'></li>
-                        <li id="total"></li>
-                        <li><button onclick="submit()">提交</button></li>
+                        <li>价格：<p id='totalPrice'>0</p></li>
+                        <li>运费：<p id='totalFreight'>0</p> </li>
+                        <li>数量：<p id='totalSum'>0</p> </li>
+                        <li>结算： <p id="total">0</p> </li>
+                        <li><button style="float: right;" class="btn btn-warning" onclick="submit()">提交</button></li>
                     </ul>
                 </div>
             </div>

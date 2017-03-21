@@ -39,4 +39,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public List<ShoppingCart> selectByUserId(Integer userId){
         return shoppingCartMapper.selectByUserId(userId);
     }
+
+    public void update(ShoppingCart shoppingCart){
+        shoppingCartMapper.update(shoppingCart);
+    }
+    public void delete(ShoppingCart shoppingCart){
+        shoppingCartMapper.delete(shoppingCart);
+    }
 }

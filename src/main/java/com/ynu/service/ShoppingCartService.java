@@ -12,4 +12,8 @@ public interface ShoppingCartService {
     public void insert(Integer bookId,Integer userId,Integer counts);
 
     public List<ShoppingCart> selectByUserId(Integer userId);
+
+    public void update(ShoppingCart shoppingCart);
+
+    public void delete(ShoppingCart shoppingCart);
 }

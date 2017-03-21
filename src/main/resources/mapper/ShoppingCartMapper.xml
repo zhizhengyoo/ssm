@@ -39,4 +39,11 @@
        select * from sys_shopping_cart sc LEFT OUTER JOIN sys_book b ON sc.BOOK_ID = b.BOOK_ID
     </select>
 
+    <update id="update">
+        update sys_shopping_cart set COUNTS=#{counts} where SHOPPING_CART_ID = #{shoppingCartId};
+    </update>
+
+    <delete id="delete">
+        DELETE FROM sys_shopping_cart WHERE SHOPPING_CART_ID = #{shoppingCartId}
+    </delete>
 </mapper>
