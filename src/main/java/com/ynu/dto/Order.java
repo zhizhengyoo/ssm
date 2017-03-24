@@ -2,6 +2,7 @@ package com.ynu.dto;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by YANG on 2017/3/20.
@@ -17,6 +18,15 @@ public class Order {
     private BigDecimal freight;
     private BigDecimal bookPrice;
     private BigDecimal totalPrice;
+    private List<OrderDetail> orderDetails;
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
 
     public Integer getSellerId() {
         return sellerId;

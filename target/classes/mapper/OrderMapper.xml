@@ -17,6 +17,25 @@
         ORDER_ID, USER_ID,STATUS,TOTAL_PRICE,SELLER_ID,BOOK_PRICE,FREIGHT,CREATE_TIME
     </sql>
 
+    <select id="selectStatusByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM sys_order
+        <where>
+            <if  test="userId !=null">
+                AND USER_ID = #{userId}
+            </if>
+            <if  test="sellerId !=null">
+                AND SELLER_ID = #{sellerId}
+            </if>
+            <if test="status !=null">
+                AND STATUS = #{status}
+            </if>
+        </where>
+    </select>
+
+    <delete id="delete">
+        DELETE FROM sys_order WHERE ORDER_ID = #{orderId}
+    </delete>
+
     <select id="selectLasted" resultMap="BaseResultMap">
         SELECT * from sys_order ORDER BY ORDER_ID DESC LIMIT 1
     </select>
@@ -24,4 +43,8 @@
     <insert id="insert">
       INSERT INTO sys_order(USER_ID,SELLER_ID,CREATE_TIME,BOOK_PRICE,FREIGHT,TOTAL_PRICE) VALUES (#{userId},#{sellerId},#{createTime},#{bookPrice},#{freight},#{totalPrice})
     </insert>
+
+    <update id="updateStatus">
+        update sys_order set STATUS = #{status} where ORDER_ID = #{orderId}
+    </update>
 </mapper>

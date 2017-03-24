@@ -1,10 +1,10 @@
 <#include "header.html">
-    <#include "nav.html">
+    <#include "nav_user.html">
         <!--//////////////////////////////////////////////////-->
         <!--///////////////////Product Page///////////////////-->
         <!--//////////////////////////////////////////////////-->
         <div id="page-content" class="single-page">
-            <div class="col-md-7 col-md-offset-1" style="padding: 0 20px 20px 0">
+            <div class="col-md-8 col-md-offset-1" style="padding: 0 20px 20px 0">
                 <div id="grid" ></div>
             </div>
 
@@ -223,7 +223,7 @@
 
             </script>
 
-            <div class="col-md-3 well" id="contentTable">
+            <div class="col-md-2 well" id="contentTable">
                 <div>
                     <ul>
                         <li>价格：<p id='totalPrice'>0</p></li>
@@ -269,7 +269,7 @@
                                   }]
                               }).done(function (event) {
                                   if (event.button == 'OK') {
-                                      window.location = "${base.contextPath}/"
+                                      window.location = "${base.contextPath}/account/order/unPayment"
                                   }else {
                                       $.each(finalData, function (i, v) {
                                           $("#grid").data("kendoGrid").dataSource.remove(v)

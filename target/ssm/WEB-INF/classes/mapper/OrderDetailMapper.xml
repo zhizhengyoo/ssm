@@ -6,7 +6,7 @@
         <result column="BOOK_ID" property="bookId" jdbcType="DECIMAL" />
         <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
         <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
-
+        <result column="BOOK_NAME" property="bookName" jdbcType="VARCHAR" />
     </resultMap>
 
 
@@ -16,4 +16,12 @@
     <insert id="insert">
         INSERT INTO sys_order_detail(BOOK_ID,ORDER_ID,COUNTS) VALUES (#{bookId},#{orderId},#{counts})
     </insert>
+    <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from sys_order_detail od LEFT OUTER JOIN sys_book b ON (od.BOOK_ID = b.BOOK_ID) WHERE ORDER_ID = #{orderId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM sys_order_detail WHERE ORDER_DETAIL_ID = #{orderDetailId}
+    </delete>
+
 </mapper>

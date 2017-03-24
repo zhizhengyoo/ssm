@@ -1,7 +1,6 @@
 package com.ynu.controllers;
 
-import com.ynu.dto.ResponseData;
-import com.ynu.dto.ShoppingCart;
+import com.ynu.dto.*;
 import com.ynu.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +32,53 @@ public class OrderController {
         System.out.println(shoppingCarts);
         Object object = new Object();
         return shoppingCarts;
+    }
+
+    @RequestMapping("account/order/unPayment")
+    public String accountUnpayment(){
+        return "unPayment_orders";
+    }
+
+    @RequestMapping("/account/order/unPayment/query")
+    @ResponseBody
+    public List<Order> orders(HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("login_success");
+        Order order = new Order();
+        order.setUserId(user.getUserId());
+        order.setStatus(0);
+        return orderService.selectStatusByUserId(order);
+    }
+
+    @RequestMapping("/account/order/unPayment/destroy")
+    @ResponseBody
+    public Order ordersDestroy(HttpServletRequest request, @RequestBody Order order){
+        orderService.updateStatus(order,5);
+        return order;
+    }
+
+    @RequestMapping("/order/payment/insert")
+    @ResponseBody
+    public List<Order> orderPaymentInsert(HttpServletRequest request,
+                                          @RequestBody List<Order> orders){
+        for(Order order:orders){
+            orderService.updateStatus(order,1);
+        }
+        return orders;
+    }
+
+    @RequestMapping("/order/unFilled")
+    public String orderUnFilled(){
+        return "unfilled_orders";
+    }
+
+    @RequestMapping("/order/unFilled/query")
+    @ResponseBody
+    public List<Order> unFilledQuery(HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("login_success");
+        Order order = new Order();
+        order.setUserId(user.getUserId());
+        order.setStatus(1);
+        return orderService.selectStatusByUserId(order);
     }
 
 

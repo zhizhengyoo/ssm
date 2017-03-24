@@ -139,7 +139,7 @@
 <header class="container">
     <div class="row">
         <div class="col-md-4">
-            <div id="logo"><img src="static/images/logo12.png" /></div>
+            <div id="logo"><img src="${base.contextPath}/static/images/logo12.png" /></div>
         </div>
         <div class="col-md-4">
             <form class="form-search">
@@ -160,7 +160,10 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="index.html">首页</a></li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">卖家需知</a>
+                <li><a href="${base.contextPath}/account_seller/publish_book_info">发布书籍信息</a></li>
+                <li><a href="${base.contextPath}/account_seller/hasSold">已卖出的书籍</a></li>
+                <li><a href="${base.contextPath}/account_seller/fillBook">发货</a></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">发布书籍信息</a>
                     <!--<div class="dropdown-menu">
                         <div class="dropdown-inner">
                             <ul class="list-unstyled">

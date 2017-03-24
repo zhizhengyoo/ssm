@@ -36,10 +36,24 @@ public class OrderServiceImpl implements OrderService {
     private OrderDetailMapper orderDetailMapper;
 
     @Autowired
-    private ShoppingCartMapper shoppingCartMapper;
+    private ShoppingCartService shoppingCartService;
 
     public Order selectLasted(){
         return orderMapper.selectLasted();
+    }
+
+    public List<Order> selectStatusByUserId(Order order){
+        List<Order> orders = orderMapper.selectStatusByUserId(order);
+        for (Order order2 :orders){
+            List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(order2.getOrderId());
+            order2.setOrderDetails(orderDetails);
+        }
+       return orders;
+    }
+
+    public void updateStatus(Order order,Integer status){
+        order.setStatus(status);
+        orderMapper.updateStatus(order);
     }
 
     public void insert(List<ShoppingCart> shoppingCarts){
@@ -81,8 +95,7 @@ public class OrderServiceImpl implements OrderService {
                     orderDetail.setBookId(shoppingCart.getBookId());
                     orderDetail.setCounts(shoppingCart.getCounts());
                     orderDetailMapper.insert(orderDetail);
-                    shoppingCartMapper.delete(shoppingCart);
-
+                    shoppingCartService.delete(shoppingCart);
                 }
             }
         }

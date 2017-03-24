@@ -9,7 +9,7 @@
 
                 <ul class="top-link">
                     <#if login_success??>
-                        <li><a id="userInfo"><span class="glyphicon glyphicon-user"></span> &nbsp; ${login_success.userName!"未命名"}</a></li>
+                        <li><a id="userInfo" href="${base.contextPath}/account"><span class="glyphicon glyphicon-user"></span> &nbsp; ${login_success.userName!"未命名"}</a></li>
                         <li><a id="logout" href="${base.contextPath}/logout">退出</a></li>
                         <#else>
                             <li><a id="loginBtn" data-toggle="modal">登录</a></li>

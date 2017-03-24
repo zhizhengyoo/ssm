@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 /**
  * Created by YANG on 2017/3/21.
  */
-public class OrderDetail extends Order {
+public class OrderDetail extends Book {
 
     private Integer orderDetailId;
     private Integer orderId;

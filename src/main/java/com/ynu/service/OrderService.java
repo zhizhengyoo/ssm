@@ -14,4 +14,8 @@ public interface OrderService {
     public void insert(List<ShoppingCart> shoppingCarts);
 
     public Order selectLasted();
+
+    public List<Order> selectStatusByUserId(Order order);
+
+    public void updateStatus(Order order,Integer status);
 }

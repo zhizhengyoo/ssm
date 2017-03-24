@@ -12,11 +12,11 @@
 						<div class="panel-heading">我的应用</div>
 						<div class="panel-body">
 							<ul id="bookUl" class="nav nav-pills nav-stacked" role="tablist">
-								<li onclick="changeActive(this)" role="presentation" class="active"><a href="account_seller/onsellingBook" target="publish_book">出售中的书籍</a></li>
-								<li onclick="changeActive(this)" role="presentation"><a href="account_seller/publish_book_info" target="publish_book">发布书籍信息</a></li>
+								<li onclick="changeActive(this)" role="presentation" class="active"><a href="${base.contextPath}/account_seller/onsellingBook" target="publish_book">出售中的书籍</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="${base.contextPath}/account_seller/publish_book_info" target="publish_book">发布书籍信息</a></li>
 								<li onclick="changeActive(this)" role="presentation"><a href="#inventory">仓库中的书籍</a></li>
-								<li onclick="changeActive(this)" role="presentation"><a href="#sold">已卖出的书籍</a></li>
-								<li onclick="changeActive(this)" role="presentation"><a href="#shipments">发货</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="${base.contextPath}/account_seller/hasSold" target="publish_book">已卖出的书籍</a></li>
+								<li onclick="changeActive(this)" role="presentation"><a href="${base.contextPath}/account_seller/fillBook" target="publish_book">发货</a></li>
 								<li onclick="changeActive(this)" role="presentation"><a href="#comment_manage">评价管理</a></li>
 							</ul>
 						</div>

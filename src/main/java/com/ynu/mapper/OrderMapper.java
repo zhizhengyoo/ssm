@@ -12,4 +12,8 @@ public interface OrderMapper {
     public void insert(Order order);
 
     public Order selectLasted();
+
+    public List<Order> selectStatusByUserId(Order order);
+
+    public void updateStatus(Order order);
 }
