@@ -16,4 +16,6 @@ public interface OrderMapper {
     public List<Order> selectStatusByUserId(Order order);
 
     public void updateStatus(Order order);
+
+    public Order selectByOrderId(Integer orderId);
 }

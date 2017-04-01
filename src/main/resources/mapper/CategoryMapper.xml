@@ -18,6 +18,11 @@
         from sys_category WHERE PARENT_C_ID is NULL
     </select>
 
+    <select id="second" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        from sys_category WHERE PARENT_C_ID is NOT NULL
+    </select>
+
     <select id="selectSecondLevel" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT <include refid="Base_Column_List" />
         from sys_category WHERE PARENT_C_ID = #{categoryId}

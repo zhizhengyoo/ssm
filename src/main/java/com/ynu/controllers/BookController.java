@@ -1,5 +1,6 @@
 package com.ynu.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.ynu.dto.Book;
 import com.ynu.dto.BookDetailImg;
 import com.ynu.dto.Category;
@@ -49,5 +50,14 @@ public class BookController {
             request.getSession().removeAttribute("addShoppingCartSuccess");
         }
         return "bookDetail";
+    }
+
+    @RequestMapping("/bookShow/{id}")
+    public String BookShow(@PathVariable Integer id, Model model){
+        Book book = new Book();
+        book.setCategoryId(id);
+        List<Book> books = bookService.selectBookList(book);
+        model.addAttribute("books",books);
+        return "book_show";
     }
 }

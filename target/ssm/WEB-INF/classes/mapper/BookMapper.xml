@@ -38,7 +38,7 @@
     </insert>
 
     <update id="updateBook">
-        update sys_book set BOOK_NAME=#{bookName},AUTHOR=#{author},BOOK_INFO=#{bookInfo},PRICE=#{price},CATEGORY_ID=#{categoryId},COVER=#{cover},PUBLISHING_COMPANY=#{publishingCompany},USE_HOURS_ID=#{useHoursId},TOTAL_NUM=#{totalNum},REMAIN_NUM=#{remainNum},FREIGHT=#{freight} where BOOK_ID = #{bookId};
+        update sys_book set BOOK_NAME=#{bookName},SOLD_NUM=#{soldNum},AUTHOR=#{author},BOOK_INFO=#{bookInfo},PRICE=#{price},CATEGORY_ID=#{categoryId},COVER=#{cover},PUBLISHING_COMPANY=#{publishingCompany},USE_HOURS_ID=#{useHoursId},TOTAL_NUM=#{totalNum},REMAIN_NUM=#{remainNum},FREIGHT=#{freight} where BOOK_ID = #{bookId};
     </update>
     <delete id="destroyBook">
         DELETE FROM sys_book WHERE BOOK_ID = #{bookId}
@@ -51,6 +51,26 @@
         LEFT OUTER JOIN sys_category c ON (c.CATEGORY_ID = b.CATEGORY_ID)
         LEFT OUTER JOIN sys_use_hours u ON (u.USE_HOURS_ID = b.USE_HOURS_ID)
         WHERE USER_ID = #{userId}
+        ORDER BY b.BOOK_ID DESC
+    </select>
+
+    <select id="selectBookList" resultMap="BaseResultMap">
+        SELECT b.BOOK_ID,TOTAL_NUM,FREIGHT,SOLD_NUM,REMAIN_NUM,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,b.CATEGORY_ID,COVER,PUBLISHING_COMPANY,
+        b.USE_HOURS_ID,c.CATEGORY_NAME,u.USE_HOURS_STATUS
+        from sys_book b
+        LEFT OUTER JOIN sys_category c ON (c.CATEGORY_ID = b.CATEGORY_ID)
+        LEFT OUTER JOIN sys_use_hours u ON (u.USE_HOURS_ID = b.USE_HOURS_ID)
+        <where>
+            <if  test="userId !=null">
+                AND USER_ID = #{userId}
+            </if>
+            <if  test="bookId !=null">
+                AND BOOK_ID = #{bookId}
+            </if>
+            <if  test="categoryId !=null">
+                AND b.CATEGORY_ID = #{categoryId}
+            </if>
+        </where>
         ORDER BY b.BOOK_ID DESC
     </select>
 

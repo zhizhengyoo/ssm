@@ -29,6 +29,9 @@
             <if test="status !=null">
                 AND STATUS = #{status}
             </if>
+            <if test="orderId !=null">
+                AND ORDER_ID = #{orderId}
+            </if>
         </where>
     </select>
 
@@ -38,6 +41,10 @@
 
     <select id="selectLasted" resultMap="BaseResultMap">
         SELECT * from sys_order ORDER BY ORDER_ID DESC LIMIT 1
+    </select>
+
+    <select id="selectByOrderId" resultMap="BaseResultMap">
+        SELECT * from sys_order WHERE ORDER_ID = #{orderId}
     </select>
 
     <insert id="insert">

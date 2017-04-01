@@ -11,6 +11,7 @@ public interface BookService {
 
     public void insertBook(Book book);
     public Book selectLasted();
+    public List<Book> selectBookList(Book book);
     public List<Book> selectByuserId(Integer userId);
     public Book selectByBookId(Integer bookId);
     public void updateBook(Book book);

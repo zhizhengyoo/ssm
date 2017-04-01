@@ -19,6 +19,15 @@ public class Order {
     private BigDecimal bookPrice;
     private BigDecimal totalPrice;
     private List<OrderDetail> orderDetails;
+    private Logistics logistics;
+
+    public Logistics getLogistics() {
+        return logistics;
+    }
+
+    public void setLogistics(Logistics logistics) {
+        this.logistics = logistics;
+    }
 
     public List<OrderDetail> getOrderDetails() {
         return orderDetails;

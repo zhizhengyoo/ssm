@@ -20,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by YANG on 2017/2/16.
@@ -53,6 +51,18 @@ public class CommonController {
         List<Book> books = bookService.selectAll();
         mv.addObject("books",books);
         return mv;
+    }
+    @RequestMapping("/nav")
+    @ResponseBody
+    public Map<String ,List<Category>> nav(Model model){
+        List<Category> category = categoryService.selectFirstLevel();
+        model.addAttribute("firstLevel",category);
+        List<Category> categories = categoryService.second();
+        model.addAttribute("secondLevel",categories);
+        Map<String,List<Category>> category2 = new HashMap<String, List<Category>>();
+        category2.put("firstLevel",category);
+        category2.put("secondLevel",categories);
+        return category2;
     }
 
     @RequestMapping("/login")

@@ -29,4 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
     public Category selectBycId(Integer id){
         return categoryMapper.selectBycId(id);
     }
+
+    public List<Category> second(){
+        return categoryMapper.second();
+    }
 }

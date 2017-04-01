@@ -43,10 +43,25 @@ public class UserController {
         return "redirect:home";
     }
 
+    @RequestMapping("/userReg/validator")
+    @ResponseBody
+    public String Validator(@RequestBody User user){
+        User user1 = userService.userValidator(user);
+        if (user1 != null){
+            return "该手机号已被注册";
+        }else {
+            return "success";
+        }
+    }
     @RequestMapping(value = "/logout",method =RequestMethod.GET)
     public String Logout(HttpServletRequest request){
         request.getSession().invalidate();
         return "redirect:home";
+    }
+
+    @RequestMapping("/reg")
+    public String RegisterPage(){
+        return "register";
     }
 
     @RequestMapping(value = "/logins",method = RequestMethod.POST)

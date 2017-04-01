@@ -17,12 +17,24 @@
         USER_ID, USER_NAME, PASS_WORD, EMAIL, PHONE,ADDRESS,USER_ROLE,ACCOUNT
     </sql>
 
-
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from SYS_USER WHERE USER_ID = #{userId}
+    </select>
     <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select 
         <include refid="Base_Column_List" />
         from SYS_USER
         where upper(USER_NAME) = upper(#{userName,jdbcType=VARCHAR})
+    </select>
+    <select id="userValidator" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> from SYS_USER
+        <where>
+            <if test="phone !=null">
+                AND PHONE = #{phone}
+            </if>
+        </where>
     </select>
     <insert id="insertUser">
         INSERT INTO

@@ -1,0 +1,100 @@
+<#include "header_seller.html">
+        <div class="panel panel-default">
+            <div class="panel-body" style="font-size: 14px">
+                <p style="margin: 0 0 5px">买家信息</p>
+                <span class="col-sm-4">用户名：${buyer.userName}</span>
+                <span class="col-sm-4">联系电话：${buyer.phone}</span>
+                <span class="col-sm-4">邮箱：${buyer.email}</span>
+                <span class="col-sm-4">收货地址：${buyer.userName}</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    <form id="form" class="form-horizontal" action="${base.contextPath}/account_seller/fillBook/insert" method="POST">
+
+        <div class="panel panel-default">
+            <div class="panel-body" style="font-size: 14px">
+                <p style="margin: 0 0 5px">运单填写</p>
+                <div class="form-group">
+                    <span class="control-label col-sm-2">收货地址：</span>
+                    <div class="col-sm-7">
+                        <input class="form-control" value="${buyer.userName}" readonly>
+                        <#list orders as order>
+                            <input type="number" name="orderId" value="${order.orderId}" style="display: none">
+                        </#list>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-sm-2">单号：</span>
+                    <div class="col-sm-7">
+                        <input name="trackingNumber" class="form-control" placeholder="填写单号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="col-sm-2 control-label">物流公司：</span>
+                    <div class="col-sm-7">
+                        <input class="form-control" name="logisticsCompany" placeholder="填写物流公司">
+                    </div>
+                </div>
+                <div><input onclick="submits()" class="btn btn-primary col-sm-offset-3" value="发货"> </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <script>
+            function submits() {
+                debugger;
+                var data = {
+                    orderId:$("input[name=orderId]")[0].value,
+                    trackingNumber:$("input[name=trackingNumber]")[0].value,
+                    logisticsCompany:$("input[name=logisticsCompany]")[0].value
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "${base.contextPath}/account_seller/fillBook/insert",
+                    contentType:'application/json',
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function(data){
+                        debugger;
+                        $("#dialog").kendoWindow({
+                            height:500,
+                            modal:true,
+                            resizable: false,
+                            minHeight:500,
+                            minWidth:700,
+                            width:700,
+                            title:"发货",
+                            visible:false,
+                            position:{
+                                top:10
+                            }
+                        });
+                        $("#dialog").data("kendoWindow").close();
+                        window.location.reload();
+                    },
+                    error:function (e) {
+                        debugger;
+                    }
+                })
+            }
+        </script>
+    </form>
+
+        <div class="panel panel-default" style="margin-bottom:0">
+            <div class="panel-body" style="font-size: 14px">
+                <p style="margin: 0 0 5px">商品信息</p>
+                <#list orders as order>
+                    <#list order.orderDetails as orderDetail>
+                        <div class="well well-sm">
+                            <img class="col-sm-4" src="${base.contextPath}/${orderDetail.cover}" alt="" style="width: 80px;width: 80px">
+                           <div class="col-sm-4 col-sm-offset-2" style="margin-top:7%">
+                               <span>${orderDetail.bookName}</span>
+                               <span>${orderDetail.author}</span>
+                           </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </#list>
+                </#list>
+
+            </div>
+        </div>
+    </body>

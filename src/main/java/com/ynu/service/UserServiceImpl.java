@@ -32,4 +32,12 @@ public class UserServiceImpl implements UserService {
         return mapper.userLogin(user);
     }
 
+    public User selectByUserId(Integer userId){
+        return mapper.selectByUserId(userId);
+    }
+
+    public User userValidator(User user){
+        return mapper.userValidator(user);
+    }
+
 }

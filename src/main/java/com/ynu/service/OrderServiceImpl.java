@@ -1,9 +1,7 @@
 package com.ynu.service;
 
-import com.ynu.dto.Book;
-import com.ynu.dto.Order;
-import com.ynu.dto.OrderDetail;
-import com.ynu.dto.ShoppingCart;
+import com.ynu.dto.*;
+import com.ynu.mapper.LogisticsMapper;
 import com.ynu.mapper.OrderDetailMapper;
 import com.ynu.mapper.OrderMapper;
 import com.ynu.mapper.ShoppingCartMapper;
@@ -36,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
     private OrderDetailMapper orderDetailMapper;
 
     @Autowired
+    private LogisticsMapper logisticsMapper;
+
+    @Autowired
     private ShoppingCartService shoppingCartService;
 
     public Order selectLasted(){
@@ -46,9 +47,19 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderMapper.selectStatusByUserId(order);
         for (Order order2 :orders){
             List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(order2.getOrderId());
+            Logistics logistics = new Logistics();
+            logistics.setOrderId(order2.getOrderId());
+            Logistics logistics1 = logisticsMapper.selectByLogistics(logistics);
             order2.setOrderDetails(orderDetails);
+            if (logistics1 != null){
+                order2.setLogistics(logistics1);
+            }
         }
        return orders;
+    }
+
+    public Order selectByOrderId(Integer orderId){
+       return orderMapper.selectByOrderId(orderId);
     }
 
     public void updateStatus(Order order,Integer status){

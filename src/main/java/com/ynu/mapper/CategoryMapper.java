@@ -12,4 +12,5 @@ public interface CategoryMapper {
     public List<Category> selectFirstLevel();
     public List<Category> selectSecondLevel(Integer categoryId);
     public Category selectBycId(Integer id);
+    public List<Category> second();
 }

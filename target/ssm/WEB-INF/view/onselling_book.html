@@ -19,9 +19,7 @@
                     type:"POST",
                    contentType:'application/json',
                    /*dataType:"json",*/
-                   data:function (e) {
-                       return e;
-                   }
+
                 },
                 destroy: {
                     url: "onsellingBook/destroy",
@@ -34,6 +32,7 @@
                 },
                 parameterMap : function(options, type) {
                     if (type !== "read" && options) {
+                        debugger;
                         /*const optionTwo = kendo.stringify(options);
                         const newOption = optionTwo;*/
                         return kendo.stringify(options);

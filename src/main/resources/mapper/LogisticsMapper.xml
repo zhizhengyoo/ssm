@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ynu.mapper.LogisticsMapper">
+    <resultMap id="BaseResultMap" type="com.ynu.dto.Logistics" >
+        <id column="LOGISTICS_ID" property="logisticsId" jdbcType="DECIMAL" />
+        <result column="TRACKING_NUMBER" property="trackingNumber" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="LOGISTICS_COMPANY" property="logisticsCompany" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        LOGISTICS_ID, TRACKING_NUMBER,ORDER_ID,LOGISTICS_COMPANY
+    </sql>
+    <insert id="insert">
+        INSERT INTO sys_logistics(TRACKING_NUMBER,ORDER_ID,LOGISTICS_COMPANY) VALUES (#{trackingNumber},#{orderId},#{logisticsCompany})
+    </insert>
+
+    <select id="selectByLogistics" resultMap="BaseResultMap">
+      SELECT <include refid="Base_Column_List" /> FROM sys_logistics WHERE ORDER_ID = #{orderId}
+    </select>
+
+</mapper>

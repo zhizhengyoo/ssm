@@ -1,4 +1,42 @@
 <!--Top-->
+<script>
+    function loadNavs() {
+        $.ajax({
+            type: "POST",
+            url: "${base.contextPath}/nav",
+            contentType:'application/json',
+            dataType: "json",
+            success: function(data){
+                data.firstLevel.map(function (dataItem) {
+                    data.secondLevel.map(function (dataItem2) {
+                        if (dataItem.categoryId == dataItem2.parentCId){
+                            if($("#"+dataItem.categoryId).size() == 0){
+                                $("#navBar").append('<li id="'+dataItem.categoryId+'" class="dropdown">' +
+                                        '<a href="#" class="dropdown-toggle" >'+dataItem.categoryName+'</a></li>');
+                            }
+                           if ($("#"+dataItem.categoryId+" a div").size() == 0){
+                                $("#"+dataItem.categoryId+" a").append('<div class="dropdown-menu">' +
+                                        '<div class="dropdown-inner">' +
+                                        '<ul class="list-unstyled">' +
+                                        '</ul></div></div>')
+                            }
+                            $("#"+dataItem.categoryId+" a div div ul").append('<li><a href="${base.contextPath}/bookShow/'
+                                    +dataItem2.categoryId+'">'+dataItem2.categoryName+'</a></li>');
+                        }
+                    });
+                    if($("#"+dataItem.categoryId).size()==0){
+                        $("#navBar").append('<li id="'+dataItem.categoryId+'">' +
+                                '<a href="${base.contextPath}/bookShow/'+dataItem.categoryId+'">'+dataItem.categoryName+'</a></li>');
+                    }
+                });
+            },
+            error:function (e) {
+                debugger;
+            }
+        });
+    }
+    loadNavs();
+</script>
 <nav id="top">
     <div class="container">
         <div class="row">
@@ -13,7 +51,7 @@
                         <li><a id="logout" href="${base.contextPath}/logout">退出</a></li>
                         <#else>
                             <li><a id="loginBtn" data-toggle="modal">登录</a></li>
-                            <li><a id="signinBtn" data-toggle="modal">注册</a></li>
+                            <li><a href="${base.contextPath}/reg">注册</a></li>
                     </#if>
 
                 </ul>
@@ -34,41 +72,62 @@
 <!-- loginModal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body tab-content">
+        <div class="modal-content" style="width: 450px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">登录</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="${base.contextPath}/logins" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="userNameLogin" class="col-sm-2 control-label">手机</label>
+                        <div class="col-sm-9">
+                            <input name="userName" class="form-control" id="userNameLogin" placeholder="手机">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:25px">
+                        <label for="passwordLogin" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-9">
+                            <input name="password" type="password" class="form-control" id="passwordLogin" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:25px">
+                        <div class="col-sm-7" style="text-align: right">
+                            <button type="submit" class="btn btn-default">登录</button>
+                        </div>
+                        <div class="col-sm-5" style="padding-top: 8px">
+                            <span>没有账号？点击<a href="${base.contextPath}/reg" style="color: #0c80df">注册</a></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+           <!-- <div class="modal-body tab-content">
                 <ul id="loginTab" class="nav nav-tabs">
                     <li class="active">
                         <a href="#loginDiv" data-toggle="tab">登录
                         </a>
                     </li>
-                    <li><a href="#signin" data-toggle="tab">注册</a></li>
+             &lt;!&ndash;       <li><a href="#signin" data-toggle="tab">注册</a></li>&ndash;&gt;
                 </ul>
                 <div id="myTabContent" class="tab-content">
 
                     <div class="tab-pane fade in active" id="loginDiv">
                         <form method="post" action="${base.contextPath}/logins" class="form-horizontal">
                             <div class="form-group">
-                                <label for="userNameLogin" class="col-sm-2 control-label">Email</label>
-                                <div class="col-sm-10">
-                                    <input name="userName" class="form-control" id="userNameLogin" placeholder="手机或邮箱">
+                                <label for="userNameLogin" class="col-sm-3 control-label">手机</label>
+                                <div class="col-sm-9">
+                                    <input name="userName" class="form-control" id="userNameLogin" placeholder="手机">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="passwordLogin" class="col-sm-2 control-label">Password</label>
-                                <div class="col-sm-10">
-                                    <input name="password" type="password" class="form-control" id="passwordLogin" placeholder="Password">
+                                <label for="passwordLogin" class="col-sm-3 control-label">密码</label>
+                                <div class="col-sm-9">
+                                    <input name="password" type="password" class="form-control" id="passwordLogin" placeholder="密码">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8" style="text-align: center">
-                                    <button type="submit" class="btn btn-default">Sign in</button>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Remember me
-                                        </label>
-                                    </div>
+                                    <button type="submit" class="btn btn-default">登录</button>
                                 </div>
                             </div>
                         </form>
@@ -89,7 +148,6 @@
                             </div>
                             <script>
                                 $("#signinMode").change(function(){
-                                    debugger;
                                     var signMode = $("#signinMode option:selected").val();
                                     if(signMode == "phone"){
                                         $("#email").css('display','none');
@@ -99,19 +157,35 @@
                                         $("#email").css('display','block');
                                     }
                                 });
-
-
                             </script>
                             <div class="form-group">
-                                <label for="userName" class="col-sm-4 control-label">用户名</label>
-                                <div class="col-sm-8">
+                                <label for="userName" class="col-sm-3 control-label">手机号</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" id="phone" name="phone" placeholder="手机号" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userName" class="col-sm-3 control-label">用户名</label>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" name="userName" id="userName" placeholder="用户名">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-4 control-label">密码</label>
-                                <div class="col-sm-8">
+                                <label class="col-sm-3 control-label">密码</label>
+                                <div class="col-sm-9">
                                     <input type="password" name="password" class="form-control" id="inputPassword4" placeholder="密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">确认密码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" name="password" class="form-control" placeholder="密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">认证信息</label>
+                                <div class="col-sm-9">
+                                    <input type="file" name="file" class="form-control"  />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -122,9 +196,7 @@
 
                             </div>
                         </form>
-                        <!-- <script>
-
-
+                        <script>
                              function onSigninSubmit(e){
                                  var data={};
                                  $("#signForm").serializeArray().map(function(x){data[x.name]=x.value;});
@@ -143,15 +215,15 @@
                                      }
                                  });
                              }
-                         </script>-->
+                         </script>
                     </div>
                 </div>
 
                 <div style="clear:both;"></div>
-            </div>
-            <div class="modal-footer">
+            </div>-->
+            <!--<div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
@@ -181,31 +253,9 @@
             <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a></li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">PC Computers</a>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-inner">
-                            <ul class="list-unstyled">
-                                <li><a href="category.html">Window</a></li>
-                                <li><a href="category.html">MacBook</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Laptops &amp; Notebooks</a>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-inner">
-                            <ul class="list-unstyled">
-                                <li><a href="category.html">Dell</a></li>
-                                <li><a href="category.html">Asus</a></li>
-                                <li><a href="category.html">Samsung</a></li>
-                                <li><a href="category.html">Lenovo</a></li>
-                                <li><a href="category.html">Acer</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
+            <ul id="navBar" class="nav navbar-nav">
+                <li><a href="index.html">首页</a></li>
+
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Mobiles &amp; Tablet</a>
                     <div class="dropdown-menu" style="margin-left: -203.625px;">
                         <div class="dropdown-inner">
@@ -233,7 +283,6 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="category.html">Software</a></li>
             </ul>
         </div>
     </div>

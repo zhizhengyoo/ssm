@@ -8,4 +8,6 @@ import com.ynu.dto.User;
 public interface UserService {
     public void insertUser(User user);
     public User userLogin(String userName,String password);
+    public User selectByUserId(Integer userId);
+    public User userValidator(User user);
 }
