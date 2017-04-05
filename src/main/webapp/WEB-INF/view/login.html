@@ -18,7 +18,7 @@
                 <form id="form-login" method="post" action="${base.contextPath}/logins">
                     <div id='login-error' class="error-tip">
                         <#if login_error??>
-                            {login_error}
+                           ${login_error}
                         </#if>
                     </div>
                     <table border="0" cellspacing="0" cellpadding="0">
@@ -61,7 +61,7 @@
             </div>
             <div class="reg">
                 <p>还没有账号？<br>赶快免费注册一个吧！</p>
-                <input class="btn btn-warning" value="立即注册" />
+                <a href="${base.contextPath}/reg"><input class="btn btn-warning" value="立即注册" /></a>
             </div>
         </div>
   

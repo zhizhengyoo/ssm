@@ -92,10 +92,7 @@ public class CommonController {
         return  categoriesSecond;
     }
 
-    @RequestMapping(value = "/test1")
-    public String test2(){
-        return "test1";
-    }
+
 
 
     @RequestMapping(value = "/account_seller/addBook")

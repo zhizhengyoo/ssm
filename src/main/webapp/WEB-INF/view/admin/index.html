@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumino - Dashboard</title>
+
+	<!--Icons-->
+	<script src="${base.contextPath}/static/admin/js/lumino.glyphs.js"></script>
+	<script src="${base.contextPath}/static/js/jquery-2.1.1.js"></script>
+	<script src="${base.contextPath}/lib/kendoui/js/kendo.all.js"></script>
+	<script src="${base.contextPath}/static/js/bootstrap.min.js"></script>
+	<link href="${base.contextPath}/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="${base.contextPath}/lib/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="${base.contextPath}/lib/kendoui/styles/kendo.common-bootstrap.min.css" rel="stylesheet"
+		  type="text/css"/>
+	<link href="${base.contextPath}/lib/kendoui/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<!--
+        <link href="${base.contextPath}/lib/kendoui/styles/kendo.hap.css" rel="stylesheet" type="text/css"/>
+    -->
+	<script src="${base.contextPath}/lib/kendoui/js/cultures/kendo.culture.${base.locale.toString()?replace('_','-')}.js"></script>
+	<script src="${base.contextPath}/lib/kendoui/js/messages/kendo.messages.${base.locale.toString()?replace('_','-')}.js"></script>
+	<link href="${base.contextPath}/static/admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${base.contextPath}/static/admin/css/datepicker3.css" rel="stylesheet">
+	<link href="${base.contextPath}/static/admin/css/styles.css" rel="stylesheet">
+
+
+	<![endif]-->
+	<style>
+		.panel-info>.panel-heading{
+			height: 42px;
+			padding: 5px;
+			background-color: #e9ecf2;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+				<ul class="user-menu">
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+							<li><a href="${base.contextPath}/logout"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+							
+		</div><!-- /.container-fluid -->
+	</nav>
+		
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+
+
+		<div class="panel panel-info" style="border: 1px solid #eeeeee;margin: 4px 4px 10px">
+			<!-- Default panel contents -->
+			<div class="panel-heading">用户管理</div>
+			<ul class="nav menu">
+				<li class="active"><a href="#">
+					<span class="glyphicon glyphicon-bell"></span>待处理</a></li>
+				<li><a href="widgets.html"> <span	 class="glyphicon glyphicon-user"></span> 全部用户</a></li>
+			</ul>
+		</div>
+
+		<div class="panel panel-info" style="border: 1px solid #eeeeee;margin: 4px 4px 10px">
+			<!-- Default panel contents -->
+			<div class="panel-heading">公告管理</div>
+			<ul class="nav menu">
+					<li><a href="#"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg>首页广告管理</a></li>
+				<li><a href="widgets.html"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg>全部用户</a></li>
+			</ul>
+		</div>
+
+		<div class="attribution">Template by <a href="http://www.medialoot.com/item/lumino-admin-bootstrap-template/">Medialoot</a><br/><a href="http://www.glyphs.co" style="color: #333;">Icons by Glyphs</a></div>
+	</div><!--/.sidebar-->
+		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg>用户管理</a></li>
+				<li class="active">待验证</li>
+			</ol>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">待处理</h1>
+			</div>
+		</div><!--/.row-->
+		
+		<div class="row" style="margin:0 10px 10px">
+			<div id="grid"></div>
+			<div id="validator"></div>
+		</div><!--/.row-->
+		<script>
+			var dataSource = new kendo.data.DataSource({
+				transport: {
+					read: {
+						url: "${base.contextPath}/admini/validatorQuery",
+						dataType : "json"
+					},
+					update: {
+						url: "onsellingBook/update",
+						type:"POST",
+						contentType:'application/json',
+						/*dataType:"json",*/
+
+					},
+					destroy: {
+						url: "onsellingBook/destroy",
+						type:"POST",
+						contentType:'application/json',
+						/*dataType:"json",*/
+						data:function (e) {
+							return e;
+						}
+					},
+					parameterMap : function(options, type) {
+						if (type !== "read" && options) {
+							debugger;
+							/*const optionTwo = kendo.stringify(options);
+							 const newOption = optionTwo;*/
+							return kendo.stringify(options);
+						}
+					}
+
+				},
+				schema: {
+					model: {
+						id: "userId",
+						fields:{
+							'bookName':{},
+							'price':{type:'number'},
+							'remainNum':{type:'number'},
+							'freight':{type:'number'}
+						}
+					}
+				},
+				pageSize: 5
+			});
+			var validator;
+			function openValidator(item) {
+				debugger;
+				validator = $("#validator").kendoWindow({
+					width: 400,
+					resizable:false,
+					title: '验证信息',
+					modal: true
+				}).data("kendoWindow");
+				validator.content('<div style="text-align: center"><img style="height: 300px" src="${base.contextPath}/'+item.id+'" /></div>');
+				validator.center().open();
+			}
+			$("#grid").kendoGrid({
+				dataSource: dataSource,
+				pageable : {
+					pageSizes : [ 3,5, 10, 20, 50 ],
+					refresh : true,
+					buttonCount : 5
+				},
+				height:500,
+				editable:"inline",
+				columns:[
+					{
+						field:"userName",
+						title:"用户名",
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+						attributes: {
+							"class": "table-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+						menu: false
+					},{
+						field:"school",
+						title:"学校",
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+						attributes: {
+							"class": "table-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+					},{
+						field:"schoolNumber",
+						title:"学号",
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+						attributes: {
+							"class": "table-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+					},{
+						field:"validatorImg",
+						title:"验证信息图",
+						template:function (e) {
+							const that = this;
+							return '<a href="javascript:void(0)" id="'+e.validatorImg+'"  onclick="openValidator(this)">点击查看</a>'
+							//return '<img style="height: 100px;" src="${base.contextPath}/'+e.validatorImg+'">' || ""
+						},
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+						attributes: {
+							"class": "table-cell",
+							style: "text-align: center; font-size: 14px"
+						}
+					},{
+						field:"phone",
+						title:"手机号",
+						headerAttributes: {
+							"class": "table-header-cell",
+							style: "text-align: center; font-size: 14px"
+						},
+						attributes: {
+							"class": "table-cell",
+							style: "text-align: center; font-size: 14px"
+						}
+					},{command:[{
+						name:"详情"
+					},{name:"通过"},{name:"拒绝"}],
+						width:250
+					}
+				],
+			});
+
+
+		</script>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Site Traffic Overview</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>New Orders</h4>
+						<div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>Comments</h4>
+						<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>New Users</h4>
+						<div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>Visitors</h4>
+						<div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+								
+		<div class="row">
+			<div class="col-md-8">
+			
+				<div class="panel panel-default chat">
+					<div class="panel-heading" id="accordion"><svg class="glyph stroked two-messages"><use xlink:href="#stroked-two-messages"></use></svg> Chat</div>
+					<div class="panel-body">
+						<ul>
+							<li class="left clearfix">
+								<span class="chat-img pull-left">
+									<img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
+								</span>
+								<div class="chat-body clearfix">
+									<div class="header">
+										<strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small>
+									</div>
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies. 
+									</p>
+								</div>
+							</li>
+							<li class="right clearfix">
+								<span class="chat-img pull-right">
+									<img src="http://placehold.it/80/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
+								</span>
+								<div class="chat-body clearfix">
+									<div class="header">
+										<strong class="pull-left primary-font">Jane Doe</strong> <small class="text-muted">6 mins ago</small>
+									</div>
+									<p>
+										Mauris dignissim porta enim, sed commodo sem blandit non. Ut scelerisque sapien eu mauris faucibus ultrices. Nulla ac odio nisl. Proin est metus, interdum scelerisque quam eu, eleifend pretium nunc. Suspendisse finibus auctor lectus, eu interdum sapien.
+									</p>
+								</div>
+							</li>
+							<li class="left clearfix">
+								<span class="chat-img pull-left">
+									<img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
+								</span>
+								<div class="chat-body clearfix">
+									<div class="header">
+										<strong class="primary-font">John Doe</strong> <small class="text-muted">32 mins ago</small>
+									</div>
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies. 
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." />
+							<span class="input-group-btn">
+								<button class="btn btn-success btn-md" id="btn-chat">Send</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+			</div><!--/.col-->
+			
+			<div class="col-md-4">
+			
+				<div class="panel panel-blue">
+					<div class="panel-heading dark-overlay"><svg class="glyph stroked clipboard-with-paper"><use xlink:href="#stroked-clipboard-with-paper"></use></svg>To-do List</div>
+					<div class="panel-body">
+						<ul class="todo-list">
+						<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Make a plan for today</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Update Basecamp</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Send email to Jane</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Drink coffee</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Do some work</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox" />
+									<label for="checkbox">Tidy up workspace</label>
+								</div>
+								<div class="pull-right action-buttons">
+									<a href="#"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg></a>
+									<a href="#" class="flag"><svg class="glyph stroked flag"><use xlink:href="#stroked-flag"></use></svg></a>
+									<a href="#" class="trash"><svg class="glyph stroked trash"><use xlink:href="#stroked-trash"></use></svg></a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" />
+							<span class="input-group-btn">
+								<button class="btn btn-primary btn-md" id="btn-todo">Add</button>
+							</span>
+						</div>
+					</div>
+				</div>
+								
+			</div><!--/.col-->
+		</div><!--/.row-->
+	</div>	<!--/.main-->
+<!--
+	<script src="../../../static/admin/js/jquery-1.11.1.min.js"></script>
+	<script src="../../../static/admin/js/bootstrap.min.js"></script>
+	<script src="../../../static/admin/js/chart.min.js"></script>
+	<script src="../../../static/admin/js/chart-data.js"></script>
+	<script src="../../../static/admin/js/easypiechart.js"></script>
+	<script src="../../../static/admin/js/easypiechart-data.js"></script>
+	<script src="../../../static/admin/js/bootstrap-datepicker.js"></script>-->
+	<!--<script>
+		$('#calendar').datepicker({
+		});
+
+		!function ($) {
+		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
+		        $(this).find('em:first').toggleClass("glyphicon-minus");      
+		    }); 
+		    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+		})
+		$(window).on('resize', function () {
+		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+		})
+	</script>-->
+</body>
+
+</html>

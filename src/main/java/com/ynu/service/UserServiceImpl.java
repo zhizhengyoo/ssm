@@ -7,6 +7,8 @@ import com.ynu.dto.User;
 import com.ynu.mapper.UserMapper;
 import com.ynu.MD5Util;
 
+import java.util.List;
+
 /**
  * Created by Qixiangyu on 2017/2/13.
  */
@@ -36,8 +38,11 @@ public class UserServiceImpl implements UserService {
         return mapper.selectByUserId(userId);
     }
 
-    public User userValidator(User user){
+    public List<User> userValidator(User user){
         return mapper.userValidator(user);
+    }
+    public User adminLogin(User user){
+        return mapper.adminLogin(user);
     }
 
 }

@@ -20,6 +20,46 @@ public class User {
 
     private long account;
 
+    private String validatorImg;
+
+    private Integer status;
+
+    private String school;
+
+    private String schoolNumber;
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getSchoolNumber() {
+        return schoolNumber;
+    }
+
+    public void setSchoolNumber(String schoolNumber) {
+        this.schoolNumber = schoolNumber;
+    }
+
+    public String getValidatorImg() {
+        return validatorImg;
+    }
+
+    public void setValidatorImg(String validatorImg) {
+        this.validatorImg = validatorImg;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getUserId() {
         return userId;
     }
