@@ -3,15 +3,19 @@ package com.ynu.controllers;
 import com.ynu.dto.*;
 import com.ynu.service.BookService;
 import com.ynu.service.OrderService;
+import com.ynu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.FloatLiteral;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +31,9 @@ public class OrderController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/order/insert")
     @ResponseBody
@@ -63,20 +70,35 @@ public class OrderController {
     @RequestMapping("/order/payment/insert")
     @ResponseBody
     public List<Order> orderPaymentInsert(HttpServletRequest request,
+                                          Model model,
                                           @RequestBody List<Order> orders){
-        for(Order order:orders){
-            orderService.updateStatus(order,1);
-            List<OrderDetail> orderDetails = order.getOrderDetails();
-            for (OrderDetail orderDetail:orderDetails){
-                Book book = bookService.selectByBookId(orderDetail.getBookId());
-                int remainNum = book.getRemainNum();
-                int soldNum = book.getSoldNum();
-                book.setRemainNum(remainNum-orderDetail.getCounts());
-                book.setSoldNum(soldNum+orderDetail.getCounts());
-                bookService.updateBook(book);
-            }
+        User user = (User)request.getSession().getAttribute("login_success");
+        float account = user.getAccount();
+        BigDecimal counts = new BigDecimal(Float.toString(account));
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (Order order:orders){
+            totalPrice = totalPrice.add(order.getTotalPrice());
         }
-        return orders;
+       if (totalPrice.compareTo(counts) > 0){
+            model.addAttribute("pay_error","付款失败，余额不足！");
+           return null;
+        }else {
+            user.setAccount(counts.subtract(totalPrice).floatValue());
+            userService.updateAccount(user);
+           for(Order order:orders){
+               orderService.updateStatus(order,1);
+               List<OrderDetail> orderDetails = order.getOrderDetails();
+               for (OrderDetail orderDetail:orderDetails){
+                   Book book = bookService.selectByBookId(orderDetail.getBookId());
+                   int remainNum = book.getRemainNum();
+                   int soldNum = book.getSoldNum();
+                   book.setRemainNum(remainNum-orderDetail.getCounts());
+                   book.setSoldNum(soldNum+orderDetail.getCounts());
+                   bookService.updateBook(book);
+               }
+           }
+           return orders;
+       }
     }
 
     @RequestMapping("/order/unFilled")
@@ -114,6 +136,10 @@ public class OrderController {
     public Order orderunConfirmInsert(HttpServletRequest request,
                                           @RequestBody Order order){
             orderService.updateStatus(order,3);
+            User user = userService.selectByUserId(order.getSellerId());
+            BigDecimal counts = order.getTotalPrice().add(new BigDecimal(Float.toString(user.getAccount())));
+            user.setAccount(counts.floatValue());
+            userService.updateAccount(user);
         return order;
     }
 

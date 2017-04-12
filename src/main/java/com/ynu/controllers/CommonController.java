@@ -48,8 +48,12 @@ public class CommonController {
     @RequestMapping("/home")
     public ModelAndView home() {
         ModelAndView mv = new ModelAndView("home");
+        List<Book> booksNew = bookService.selectNew();
+        List<Book> booksHot = bookService.selectHot();
         List<Book> books = bookService.selectAll();
         mv.addObject("books",books);
+        mv.addObject("booksNew",booksNew);
+        mv.addObject("booksHot",booksHot);
         return mv;
     }
     @RequestMapping("/nav")
@@ -105,6 +109,7 @@ public class CommonController {
                           @RequestParam("price") BigDecimal price,
                           @RequestParam("counts") Integer counts,
                           @RequestParam("categoryId") String categoryId,
+                          @RequestParam("parentCId") String parentCId,
                           @RequestParam("bookInfo") String bookInfo,
                           @RequestParam("freight") BigDecimal freight,
                           HttpServletRequest request,
@@ -117,15 +122,29 @@ public class CommonController {
         Book book = new Book();
         book.setUserId(userId);
         book.setAuthor(author);
-        book.setBookInfo(bookInfo);
+        if (bookInfo!=null){
+            book.setBookInfo(bookInfo);
+        }
         book.setBookName(bookName);
         book.setUseHoursId(Integer.parseInt(useHoursId));
         book.setPrice(price);
-        book.setPublishingCompany(publishingCompany);
-        book.setCategoryId(Integer.parseInt(categoryId));
+        if (publishingCompany!=null){
+            book.setPublishingCompany(publishingCompany);
+        }
+        if (categoryId!=null){
+            if (Integer.parseInt(categoryId)>=0){
+                book.setCategoryId(Integer.parseInt(categoryId));
+            }else if ((Integer.parseInt(parentCId)>=0)){
+                book.setCategoryId(Integer.parseInt(parentCId));
+            }
+    }
         book.setTotalNum(counts);
         book.setRemainNum(counts);
-        book.setFreight(freight);
+        if (freight!=null){
+            book.setFreight(freight);
+        }else{
+            book.setFreight(BigDecimal.ZERO);
+        }
         try{
             userName = ((User) user).getUserName();
         }catch (Exception e){
@@ -172,19 +191,21 @@ public class CommonController {
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        for(MultipartFile detail:detailImg){
-            String name = detail.getOriginalFilename();
-            detailPath = detailPath+name;
-            bookDetailImg.setBookId(bookId);
-            bookDetailImg.setBookDetailImg(detailPath.substring(rootPath.length()));
-            try{
-                detail.transferTo(new File(detailPath));
-                bookDetailImgMapper.insertBookDetailImg(bookDetailImg);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+       if (detailImg!=null){
+           for(MultipartFile detail:detailImg){
+               String name = detail.getOriginalFilename();
+               detailPath = detailPath+name;
+               bookDetailImg.setBookId(bookId);
+               bookDetailImg.setBookDetailImg(detailPath.substring(rootPath.length()));
+               try{
+                   detail.transferTo(new File(detailPath));
+                   bookDetailImgMapper.insertBookDetailImg(bookDetailImg);
+               }catch (Exception e){
+                   e.printStackTrace();
+               }
 
-        }
+           }
+       }
         return "redirect:/account_seller/onsellingBook";
     }
 
@@ -198,15 +219,21 @@ public class CommonController {
     @ResponseBody
     public List<Book> queryOnsellingBook(HttpServletRequest request,
                                          HttpServletResponse response){
-        Object user  = request.getSession().getAttribute("login_success");
-        int userId = ((User) user).getUserId();
+        User user  = (User) request.getSession().getAttribute("login_success");
+        int userId =  user.getUserId();
         List<Book> books = bookService.selectByuserId(userId);
         List<Book> books1 = new ArrayList<Book>();
         for (Book book :books){
-            Category category = categoryService.selectBycId(book.getCategoryId());
-            Category category1 = categoryService.selectBycId(category.getParentCId());
-            book.setCategoryParentName(category1.getCategoryName());
-            books1.add(book);
+            if(book.getRemainNum()>0){
+                if (book.getCategoryId()!=null && book.getCategoryId()>=0){
+                    Category category = categoryService.selectBycId(book.getCategoryId());
+                    Category category1 = categoryService.selectBycId(category.getParentCId());
+                    if (category1!=null){
+                        book.setCategoryParentName(category1.getCategoryName());
+                    }
+                }
+                books1.add(book);
+            }
         }
         return books1;
 

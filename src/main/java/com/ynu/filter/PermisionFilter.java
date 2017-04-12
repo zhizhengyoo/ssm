@@ -21,7 +21,7 @@ public class PermisionFilter implements Filter {
         String path = req.getServletPath();
         Object flag = req.getSession().getAttribute("login_success");
         Object flagAdmin = req.getSession().getAttribute("admin_login_success");
-        if(path.equals("/account_seller")
+        if(path.contains("/account_seller")
                 ||path.contains("account")
                 ||(path.contains("shoppingCart")&&(!path.equals("/shoppingCart/passport/vcode")))){
             if (flag != null){

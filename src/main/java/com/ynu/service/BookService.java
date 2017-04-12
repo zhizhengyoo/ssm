@@ -17,4 +17,6 @@ public interface BookService {
     public void updateBook(Book book);
     public void destroyBook(Integer bookId);
     public List<Book> selectAll();
+    public List<Book> selectNew();
+    public List<Book> selectHot();
 }

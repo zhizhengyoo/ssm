@@ -226,6 +226,13 @@
             <div class="col-md-2 well" id="contentTable">
                 <div>
                     <ul>
+                        <li>收货地址：<select name="address" id="address">
+                            <#list addresses as address>
+                                <#if address.addressId = login_success.addressId>
+                                    <option value="address"></option>
+                                </#if>
+                            </#list>
+                        </select></li>
                         <li>价格：<p id='totalPrice'>0</p></li>
                         <li>运费：<p id='totalFreight'>0</p> </li>
                         <li>数量：<p id='totalSum'>0</p> </li>
@@ -236,7 +243,6 @@
                 <script>
 
                   function test() {
-                      debugger;
                       $.ajax({
                           type: "POST",
                           url: "${base.contextPath}/order/insert",
@@ -245,6 +251,7 @@
                           dataType: "json",
                           success: function(data){
                               debugger;
+
                               kendo.ui.showInfoDialog({
                                   title: "提示",
                                   message: "提交成功",

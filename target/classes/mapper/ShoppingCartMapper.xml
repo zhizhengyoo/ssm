@@ -36,7 +36,7 @@
     </insert>
 
     <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-       select * from sys_shopping_cart sc LEFT OUTER JOIN sys_book b ON sc.BOOK_ID = b.BOOK_ID
+       select * from sys_shopping_cart sc LEFT OUTER JOIN sys_book b ON sc.BOOK_ID = b.BOOK_ID WHERE sc.USER_ID = #{userId}
     </select>
 
     <update id="update">

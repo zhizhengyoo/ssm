@@ -7,21 +7,22 @@
         <result column="PASS_WORD" property="password" jdbcType="VARCHAR" />
         <result column="EMAIL" property="email" jdbcType="VARCHAR" />
         <result column="PHONE" property="phone" jdbcType="BIGINT" />
-        <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+        <result column="ADDRESS_ID" property="addressId" jdbcType="DECIMAL" />
         <result column="USER_ROLE" property="userRole" jdbcType="VARCHAR" />
-        <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+        <result column="ACCOUNT" property="account" jdbcType="FLOAT" />
         <result column="VALIDATOR_IMG" property="validatorImg" jdbcType="VARCHAR" />
         <result column="STATUS" property="status" jdbcType="INTEGER" />
         <result column="SCHOOL" property="school" jdbcType="VARCHAR" />
         <result column="SCHOOL_NUMBER" property="schoolNumber" jdbcType="VARCHAR" />
-
     </resultMap>
 
     
     <sql id="Base_Column_List">
-       USER_ID, USER_NAME, PASS_WORD, EMAIL, PHONE,ADDRESS,USER_ROLE,ACCOUNT,VALIDATOR_IMG,STATUS,SCHOOL,SCHOOL_NUMBER
+       USER_ID, USER_NAME, PASS_WORD, EMAIL, PHONE,ADDRESS_ID,USER_ROLE,ACCOUNT,VALIDATOR_IMG,STATUS,SCHOOL,SCHOOL_NUMBER
     </sql>
-
+    <update id="activateUser">
+        update sys_user set STATUS = #{status} where USER_ID = #{userId}
+    </update>
     <select id="selectByUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
@@ -60,4 +61,12 @@
        SELECT <include refid="Base_Column_List" /> FROM sys_user
         WHERE PASS_WORD = #{password} AND phone = #{phone} AND USER_ROLE <![CDATA[<= 1]]>
     </select>
+
+    <update id="updateUser">
+        update sys_user set USER_NAME = #{userName},EMAIL = #{email},ADDRESS_ID = #{addressId} where USER_ID = #{userId}
+    </update>
+
+    <update id="updateAccount">
+        update sys_user set ACCOUNT = #{account} where USER_ID = #{userId}
+    </update>
 </mapper>

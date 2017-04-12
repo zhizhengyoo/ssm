@@ -1,6 +1,7 @@
 package com.ynu.dto;
 
 
+import java.util.List;
 
 public class User {
 
@@ -14,11 +15,11 @@ public class User {
 
     private String phone;
 
-    private String address;
+    private Integer  addressId;
 
     private Integer userRole;
 
-    private long account;
+    private float account;
 
     private String validatorImg;
 
@@ -27,6 +28,16 @@ public class User {
     private String school;
 
     private String schoolNumber;
+
+    private List<Address> addresses;
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public String getSchool() {
         return school;
@@ -100,12 +111,12 @@ public class User {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public Integer getUserRole() {
@@ -116,11 +127,11 @@ public class User {
         this.userRole = userRole;
     }
 
-    public long getAccount() {
+    public float getAccount() {
         return account;
     }
 
-    public void setAccount(long account) {
+    public void setAccount(float account) {
         this.account = account;
     }
 

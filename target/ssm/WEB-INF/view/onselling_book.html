@@ -1,11 +1,15 @@
 <#include "header_seller.html">
-    <div class="heading">
+    <#include "nav_seller.html">
+
+    <div class="heading col-md-10 col-md-offset-1">
         <div class="col-md-6 col-sm-6">
             <h2>出售中的书籍</h2>
         </div>
         <div style="clear: both"></div>
     </div>
-    <div id="grid"></div>
+    <div class="col-md-10 col-md-offset-1">
+        <div id="grid"></div>
+    </div>
 
     <script>
         var dataSource = new kendo.data.DataSource({
@@ -47,7 +51,8 @@
                        'bookName':{},
                         'price':{type:'number'},
                         'remainNum':{type:'number'},
-                        'freight':{type:'number'}
+                        'freight':{type:'number'},
+                        'cover':{editable:false}
                     }
                 }
             },
@@ -117,7 +122,11 @@
                     field:"freight",
                     title:"邮费",
                     template:function (e) {
-                        return e["freight"]+"  元" || ""
+                        if (e["freight"]){
+                            return e["freight"]+"  元"
+                        }else{
+                            return "0"
+                        }
                     },
                     headerAttributes: {
                         "class": "table-header-cell",

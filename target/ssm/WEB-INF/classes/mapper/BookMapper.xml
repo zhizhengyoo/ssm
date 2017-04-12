@@ -25,7 +25,15 @@
         BOOK_ID,FREIGHT,BOOK_NAME,AUTHOR,BOOK_INFO,PRICE,USER_ID,CATEGORY_ID,COVER,PUBLISHING_COMPANY,USE_HOURS_ID,TOTAL_NUM,SOLD_NUM,REMAIN_NUM
     </sql>
 
+    <select id="selectNew" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        from sys_book ORDER BY BOOK_ID DESC LIMIT 8
+    </select>
 
+    <select id="selectHot" resultMap="BaseResultMap">
+        SELECT COUNT(*) as COUNTS,b.BOOK_ID,b.BOOK_NAME,b.AUTHOR,b.PRICE,b.COVER FROM sys_book b LEFT OUTER JOIN sys_order_detail od ON(b.BOOK_ID=od.BOOK_ID)
+LEFT OUTER JOIN sys_order o ON(od.ORDER_ID = o.ORDER_ID) WHERE O.`STATUS`=1 GROUP BY b.BOOK_ID ORDER BY COUNTS DESC LIMIT 8
+    </select>
     <select id="selectLasted" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" />
         from sys_book ORDER BY BOOK_ID DESC LIMIT 1

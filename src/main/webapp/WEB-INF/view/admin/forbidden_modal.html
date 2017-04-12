@@ -1,0 +1,52 @@
+<#include "header.html">
+
+    <form>
+        <div class="form-group">
+            <div class="col-sm-8">
+                <input name="reason" class="form-control" style="padding: 0 12px !important;" placeholder="填写原因">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" onclick="submits()">提交</button>
+            </div>
+        </div>
+        <script>
+            function submits() {
+                var data = {
+                    userId:'${user.userId}',
+                    reason:$("input[name=reason]")[0].value,
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "${base.contextPath}/admini/forbiddenUser",
+                    contentType:'application/json',
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function(data){
+                        debugger;
+                        $("#dialog2").kendoWindow({
+                            modal:true,
+                            resizable: false,
+                            minHeight:90,
+                            height:90,
+                            minWidth:500,
+                            width:500,
+                            title:"拒绝原因",
+                            position:{
+                                top:10
+                            },
+                            close: function(e) {
+                                debugger;
+                            }
+
+                        });
+                        $("#dialog2").data("kendoWindow").close();
+                        window.location.reload();
+                    },
+                    error:function (e) {
+                        debugger;
+                    }
+                })
+            }
+        </script>
+    </form>
+    </body>

@@ -19,4 +19,6 @@ public interface BookMapper {
     public List<Book> selectByCategoryId(Integer categoryId);
 
     public List<Book> selectBookList(Book book);
+    public List<Book> selectNew();
+    public List<Book> selectHot();
 }

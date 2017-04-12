@@ -46,4 +46,11 @@ public class BookServiceImpl implements BookService {
     public List<Book> selectBookList(Book book){
         return bookMapper.selectBookList(book);
     }
+
+    public List<Book> selectNew(){
+       return bookMapper.selectNew();
+    }
+    public List<Book> selectHot(){
+        return bookMapper.selectHot();
+    }
 }

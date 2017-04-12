@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ynu.mapper.ForbiddenMapper">
+    <resultMap id="BaseResultMap" type="com.ynu.dto.Forbidden" >
+        <id column="FORBIDDEN_ID" property="forbiddenId" jdbcType="DECIMAL" />
+        <result column="ADMIN_ID" property="adminId" jdbcType="DECIMAL" />
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+        <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        FORBIDDEN_ID, ADMIN_ID,USER_ID,REASON
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO sys_user_forbidden(ADMIN_ID,USER_ID,REASON) VALUES (#{adminId},#{userId},#{reason})
+    </insert>
+
+
+</mapper>

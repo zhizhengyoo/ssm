@@ -233,6 +233,8 @@
                             data: JSON.stringify(datas),
                             dataType: "json",
                             success: function(data){
+                                debugger;
+                                var info = '${pay_error!""}';
                                 kendo.ui.showInfoDialog({
                                     title: "提示",
                                     message: "支付成功",
@@ -271,6 +273,22 @@
                             },
                             error:function (e) {
                                 debugger;
+                                if (e.status == 200){
+                                    kendo.ui.showInfoDialog({
+                                        title: "提示",
+                                        message: "支付失败，余额不足！",
+                                        buttons: [{
+                                            text: "知道了",
+                                            type: 'primary',
+                                            click: function (e) {
+                                                e.dialog.destroy();
+                                                e.deferred.resolve({
+                                                    button: "cancel"
+                                                });
+                                            }
+                                        }]
+                                    })
+                                }
                             }
                         });
                     }

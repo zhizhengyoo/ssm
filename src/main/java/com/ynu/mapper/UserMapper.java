@@ -16,4 +16,7 @@ public interface UserMapper {
    public User selectByUserId(Integer userId);
    public List<User> userValidator(User user);
    public User adminLogin(User user);
+   public void activateUser(User user);
+   public void updateUser(User user);
+   public void updateAccount(User user);
 }

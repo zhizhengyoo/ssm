@@ -3,7 +3,8 @@
 <mapper namespace="com.ynu.mapper.OrderMapper">
     <resultMap id="BaseResultMap" type="com.ynu.dto.Order" >
         <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
-        <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+        <result column="ADDRESS_ID" property="addressId" jdbcType="DECIMAL" />
         <result column="STATUS" property="status" jdbcType="DECIMAL" />
         <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
         <result column="SELLER_ID" property="sellerId" jdbcType="DECIMAL" />
@@ -14,7 +15,7 @@
 
 
     <sql id="Base_Column_List">
-        ORDER_ID, USER_ID,STATUS,TOTAL_PRICE,SELLER_ID,BOOK_PRICE,FREIGHT,CREATE_TIME
+        ORDER_ID, USER_ID,STATUS,ADDRESS_ID,TOTAL_PRICE,SELLER_ID,BOOK_PRICE,FREIGHT,CREATE_TIME
     </sql>
 
     <select id="selectStatusByUserId" resultMap="BaseResultMap">

@@ -3,7 +3,11 @@ package com.ynu.controllers;
 import com.sun.javafx.sg.prism.NGShape;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.ynu.MD5Util;
+import com.ynu.dto.Address;
+import com.ynu.dto.Forbidden;
 import com.ynu.dto.User;
+import com.ynu.service.AddressService;
+import com.ynu.service.ForbiddenService;
 import com.ynu.service.UserService;
 import com.ynu.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,12 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ForbiddenService forbiddenService;
+
+    @Autowired
+    AddressService addressService;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public String registerUser(@RequestParam("password") String[] password,
@@ -92,6 +102,38 @@ public class UserController {
         return "redirect:home";
     }
 
+    @RequestMapping("/account/personalCenter")
+    public String personal(HttpServletRequest request,Model model){
+        User user = (User)request.getSession().getAttribute("login_success");
+        Address address = new Address();
+        address.setUserId(user.getUserId());
+        List<Address> addresses = addressService.selectById(address);
+        model.addAttribute("user",user);
+        model.addAttribute("addresses",addresses);
+        return "personCenter";
+    }
+
+    @RequestMapping("/account/personalCenter/edit")
+    @ResponseBody
+    public User personalEdit(HttpServletRequest request,Model model,@RequestBody User user){
+        User user1 = (User)request.getSession().getAttribute("login_success");
+       user.setUserId(user1.getUserId());
+        userService.updateUser(user);
+        user1 = userService.selectByUserId(user1.getUserId());
+        request.getSession().setAttribute("login_success",user1);
+        return user1;
+    }
+
+    @RequestMapping("/account/prepaid")
+    public String prapaid(HttpServletRequest request,
+                          @RequestParam("number")float number){
+        User user = (User)request.getSession().getAttribute("login_success");
+        user.setAccount(number+user.getAccount());
+        userService.updateAccount(user);
+        request.getSession().setAttribute("login_success",user);
+        return "redirect:/account/personalCenter";
+    }
+
     @RequestMapping("/reg")
     public String RegisterPage(){
         return "register";
@@ -106,13 +148,15 @@ public class UserController {
                         Model model){
         User user = userService.userLogin(userName,password);
         String path = (String)request.getSession().getAttribute("returnUrl");
+        request.getSession().removeAttribute("returnUrl");
         if (user != null){
-            if (user.getStatus() == 0){
+            if (user.getStatus() <= 0){
                 model.addAttribute("login_error","账户未激活");
                 return "login";
             }else {
                 session.setAttribute("login_success",user);
                 if (path != null){
+
                     return "redirect:"+path;
                 }else {
                     return "redirect:home";
@@ -138,9 +182,11 @@ public class UserController {
     @RequestMapping("/admini/logins")
     public String adminLogins(HttpServletRequest request,
                               Model model,
+                              HttpSession session,
                               @RequestParam("phone")String phone,
                               @RequestParam("password")String password){
         String path = (String)request.getSession().getAttribute("returnUrl");
+        request.getSession().removeAttribute("returnUrl");
         User user = new User();
         user.setPhone(phone);
         user.setPassword(MD5Util.getPwd(password));
@@ -148,6 +194,7 @@ public class UserController {
         if (user1 != null){
             request.getSession().setAttribute("admin_login_success",user1);
             if (path != null){
+
                 return "redirect:"+path;
             }else {
                 return "redirect:/admini/index";
@@ -165,5 +212,39 @@ public class UserController {
         user.setStatus(0);
         List<User> users = userService.userValidator(user);
         return users;
+    }
+
+    @RequestMapping("/admini/activateUser")
+    @ResponseBody
+    public User activateUser(@RequestBody User user){
+        user.setStatus(1);
+        userService.activateUser(user);
+        return user;
+    }
+
+    @RequestMapping("/admini/queryUser")
+    public String queryUsers(@RequestParam("userId")Integer userId,
+                             Model model){
+        User user = userService.selectByUserId(userId);
+        model.addAttribute("user",user);
+        return "admin/forbidden_modal";
+    }
+
+    @RequestMapping("/admini/forbiddenUser")
+    public String forbiddenUser(/*@RequestBody Forbidden forbidden,*/
+                              @RequestParam("userId") Integer userId,
+                              @RequestParam("reason") String reason,
+                              HttpServletRequest request){
+        Forbidden forbidden =new Forbidden();
+        forbidden.setReason(reason);
+        forbidden.setUserId(userId);
+        User user = (User)request.getSession().getAttribute("admin_login_success");
+        forbidden.setAdminId(user.getUserId());
+        forbiddenService.insert(forbidden);
+        User user1 = new User();
+        user1.setStatus(-1);
+        user1.setUserId(userId);
+        userService.activateUser(user1);
+        return "admin/index";
     }
 }

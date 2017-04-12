@@ -16,10 +16,19 @@ public class Order {
     private Integer status;
     private Timestamp createTime;
     private BigDecimal freight;
+    private Integer addressId;
     private BigDecimal bookPrice;
     private BigDecimal totalPrice;
     private List<OrderDetail> orderDetails;
     private Logistics logistics;
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
 
     public Logistics getLogistics() {
         return logistics;

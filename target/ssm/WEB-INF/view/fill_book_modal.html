@@ -49,11 +49,11 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url: "${base.contextPath}/account_seller/fillBook/insert",
-                    contentType:'application/json',
-                    data: JSON.stringify(data),
-                    dataType: "json",
-                    success: function(data){
+                            url: "${base.contextPath}/account_seller/fillBook/insert",
+                            contentType:'application/json',
+                            data: JSON.stringify(data),
+                            dataType: "json",
+                            success: function(data){
                         debugger;
                         $("#dialog").kendoWindow({
                             height:500,

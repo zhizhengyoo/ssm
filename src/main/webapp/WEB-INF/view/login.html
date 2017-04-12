@@ -19,7 +19,13 @@
                     <div id='login-error' class="error-tip">
                         <#if login_error??>
                            ${login_error}
+                            &nbsp; &nbsp;用户状态<a href="javascript:void(0)" onclick="queryStatus()">查询</a>
                         </#if>
+                       <script>
+                            function queryStatus() {
+
+                            }
+                        </script>
                     </div>
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tbody>

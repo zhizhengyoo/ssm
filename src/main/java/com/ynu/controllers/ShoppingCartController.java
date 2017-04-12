@@ -1,8 +1,10 @@
 package com.ynu.controllers;
 
+import com.ynu.dto.Address;
 import com.ynu.dto.Book;
 import com.ynu.dto.ShoppingCart;
 import com.ynu.dto.User;
+import com.ynu.service.AddressService;
 import com.ynu.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,9 @@ public class ShoppingCartController {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
+    @Autowired
+    private AddressService addressService;
+
     @RequestMapping("/shoppingCart/{id}")
     public String insertShoppingCart(@PathVariable Integer id,
             @RequestParam(value = "bookId",required = false) Integer bookId,
@@ -50,7 +55,12 @@ public class ShoppingCartController {
     }
 
     @RequestMapping("shoppingCart")
-    public String shoppingCartPage(){
+    public String shoppingCartPage(HttpServletRequest request,Model model){
+        User user = (User)request.getSession().getAttribute("login_success");
+        Address address = new Address();
+        address.setUserId(user.getUserId());
+        List<Address> addresses =addressService.selectById(address);
+        model.addAttribute("addresses",addresses);
         return "shopping_cart";
     }
 

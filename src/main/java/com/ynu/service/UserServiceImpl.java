@@ -45,4 +45,13 @@ public class UserServiceImpl implements UserService {
         return mapper.adminLogin(user);
     }
 
+    public void activateUser(User user){
+        mapper.activateUser(user);
+    }
+    public void updateUser(User user){
+        mapper.updateUser(user);
+    }
+    public void updateAccount(User user){
+        mapper.updateAccount(user);
+    }
 }
