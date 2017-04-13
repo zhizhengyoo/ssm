@@ -40,8 +40,18 @@ public class BookController {
                              Model model,
                              HttpServletRequest request) {
         Book book = bookService.selectByBookId(id);
-        Category category = categoryService.selectBycId(categoryService.selectBycId(book.getCategoryId()).getParentCId());
-        book.setCategoryParentName(category.getCategoryName());
+        Category category = new Category();
+        if(book.getCategoryId()!=null && book.getCategoryId()>=0){
+            category = categoryService.selectBycId(book.getCategoryId());
+            if (category.getParentCId()!=null && category.getParentCId()>=0){
+                category = categoryService.selectBycId(category.getParentCId());
+            }
+        }
+        if (category!=null){
+            book.setCategoryParentName(category.getCategoryName());
+        }else {
+            book.setCategoryParentName("");
+        }
         List<BookDetailImg> bookDetailImgs = bookDetailImgService.selectByBookId(id);
         model.addAttribute("book",book);
         model.addAttribute("details",bookDetailImgs);
